@@ -1,0 +1,1778 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SUPER:BOLA</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --verde: #1a7a1a;
+  --verde-claro: #2ecc2e;
+  --verde-escuro: #0d4d0d;
+  --verde-relvado: #155215;
+  --amarelo: #f5c518;
+  --branco: #f0f0f0;
+  --cinza: #ccc;
+  --preto: #0a0a0a;
+  --vermelho: #cc2222;
+  --ouro: #ffd700;
+  --prata: #c0c0c0;
+  --bronze: #cd7f32;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--preto);
+  color: var(--branco);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ---- HEADER ---- */
+header {
+  background: linear-gradient(135deg, var(--verde-escuro) 0%, var(--verde) 50%, var(--verde-escuro) 100%);
+  border-bottom: 4px solid var(--amarelo);
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 30px,
+    rgba(255,255,255,0.03) 30px,
+    rgba(255,255,255,0.03) 60px
+  );
+}
+
+.header-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.logo-super {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  color: var(--amarelo);
+  letter-spacing: 4px;
+  text-shadow: 3px 3px 0 rgba(0,0,0,0.5);
+}
+
+.logo-bola {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  color: var(--branco);
+  letter-spacing: 4px;
+  text-shadow: 3px 3px 0 rgba(0,0,0,0.5);
+}
+
+.logo-sub {
+  font-family: 'Oswald', sans-serif;
+  font-size: 11px;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.header-stats {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.header-stat {
+  text-align: center;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  padding: 10px 18px;
+}
+
+.header-stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  color: var(--amarelo);
+  line-height: 1;
+}
+
+.header-stat-label {
+  font-size: 10px;
+  color: rgba(255,255,255,0.6);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ---- NAV ---- */
+nav {
+  background: var(--preto);
+  border-bottom: 2px solid var(--verde);
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+nav::-webkit-scrollbar { display: none; }
+
+.nav-btn {
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--cinza);
+  background: none;
+  border: none;
+  padding: 16px 24px;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nav-btn:hover { color: var(--branco); background: rgba(255,255,255,0.05); }
+.nav-btn.active { color: var(--amarelo); border-bottom-color: var(--amarelo); background: rgba(245,197,24,0.08); }
+
+/* ---- PAGES ---- */
+.page { display: none; padding: 32px 40px; max-width: 1200px; margin: 0 auto; }
+.page.active { display: block; }
+
+/* ---- SECTION TITLES ---- */
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  color: var(--amarelo);
+  letter-spacing: 3px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(to right, var(--verde), transparent);
+}
+
+/* ---- LOADING ---- */
+#loading {
+  position: fixed;
+  inset: 0;
+  background: var(--preto);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  gap: 20px;
+}
+
+.loading-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 72px;
+  color: var(--amarelo);
+  letter-spacing: 8px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.97); }
+}
+
+.loading-bar {
+  width: 200px;
+  height: 4px;
+  background: var(--verde-escuro);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.loading-bar-fill {
+  height: 100%;
+  background: var(--amarelo);
+  border-radius: 2px;
+  animation: load 2s ease-in-out infinite;
+}
+
+@keyframes load {
+  0% { width: 0%; margin-left: 0; }
+  50% { width: 100%; margin-left: 0; }
+  100% { width: 0%; margin-left: 100%; }
+}
+
+.loading-text {
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+/* ---- CLASSIFICAÇÃO TABLE ---- */
+.class-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 32px;
+}
+
+.class-table th {
+  font-family: 'Oswald', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--amarelo);
+  background: var(--verde-escuro);
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 2px solid var(--verde);
+}
+
+.class-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.class-table tr:hover td { background: rgba(255,255,255,0.04); }
+
+.rank-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  color: rgba(255,255,255,0.3);
+  width: 40px;
+}
+
+.rank-1 .rank-num { color: var(--ouro); }
+.rank-2 .rank-num { color: var(--prata); }
+.rank-3 .rank-num { color: var(--bronze); }
+
+.player-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.pts-badge {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  color: var(--verde-claro);
+}
+
+.ratio-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ratio-track {
+  width: 80px;
+  height: 6px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.ratio-fill {
+  height: 100%;
+  background: var(--verde-claro);
+  border-radius: 3px;
+}
+
+.ratio-text {
+  font-size: 12px;
+  color: var(--cinza);
+  min-width: 36px;
+}
+
+.crown { font-size: 18px; margin-right: 4px; }
+
+/* ---- SEASON TABS ---- */
+.season-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.season-tab {
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--cinza);
+  transition: all 0.2s;
+}
+
+.season-tab:hover { border-color: var(--verde); color: var(--branco); }
+.season-tab.active { background: var(--verde); border-color: var(--verde); color: var(--branco); }
+.season-tab.finale { border-color: var(--amarelo); }
+
+/* ---- JORNADA GRID ---- */
+.jornada-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.jornada-cell {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+  padding: 10px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.jornada-cell:hover { border-color: var(--amarelo); background: rgba(245,197,24,0.1); }
+.jornada-cell.selected { border-color: var(--amarelo); background: rgba(245,197,24,0.15); }
+
+.jornada-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  color: var(--amarelo);
+}
+
+.jornada-label {
+  font-size: 9px;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ---- DETAIL TABLE ---- */
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.detail-season-badge {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  color: var(--amarelo);
+  background: var(--verde-escuro);
+  border: 2px solid var(--verde);
+  border-radius: 8px;
+  padding: 4px 16px;
+}
+
+/* ---- SORTEIO ---- */
+.sorteio-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+@media (max-width: 700px) { .sorteio-wrapper { grid-template-columns: 1fr; } }
+
+.player-select-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.player-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.player-check:hover { border-color: var(--verde-claro); }
+.player-check.selected { background: rgba(46,204,46,0.15); border-color: var(--verde-claro); }
+
+.player-check input { display: none; }
+
+.check-icon {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 11px;
+  transition: all 0.2s;
+}
+
+.player-check.selected .check-icon {
+  background: var(--verde-claro);
+  border-color: var(--verde-claro);
+  color: var(--preto);
+}
+
+.check-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.btn {
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: var(--amarelo);
+  color: var(--preto);
+}
+.btn-primary:hover { background: #e6b800; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(245,197,24,0.3); }
+
+.btn-verde {
+  background: var(--verde);
+  color: var(--branco);
+}
+.btn-verde:hover { background: var(--verde-claro); }
+
+.btn-danger {
+  background: var(--vermelho);
+  color: var(--branco);
+}
+
+.teams-result {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.team-card {
+  background: rgba(255,255,255,0.05);
+  border: 2px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+
+.team-card.team-a { border-color: var(--amarelo); }
+.team-card.team-b { border-color: var(--verde-claro); }
+
+.team-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.team-a .team-label { color: var(--amarelo); }
+.team-b .team-label { color: var(--verde-claro); }
+
+.team-players { display: flex; flex-direction: column; gap: 6px; }
+
+.team-player {
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  padding: 6px 10px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 4px;
+}
+
+/* ---- REGISTO ---- */
+.registo-form {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 28px;
+  max-width: 700px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--amarelo);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.form-select, .form-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 6px;
+  color: var(--branco);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-select:focus, .form-input:focus { border-color: var(--verde-claro); }
+.form-select option { background: #1a1a1a; }
+
+.registo-players {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.player-result-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+}
+
+.player-result-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
+}
+
+.result-btns { display: flex; gap: 4px; }
+
+.result-btn {
+  font-size: 11px;
+  font-family: 'Oswald', sans-serif;
+  padding: 4px 8px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 4px;
+  cursor: pointer;
+  background: none;
+  color: var(--cinza);
+  transition: all 0.15s;
+}
+
+.result-btn.win { border-color: var(--verde-claro); color: var(--verde-claro); background: rgba(46,204,46,0.1); }
+.result-btn.lose { border-color: #e67e22; color: #e67e22; background: rgba(230,126,34,0.1); }
+.result-btn.absent { border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); }
+
+/* ---- PERFIL ---- */
+.perfis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.perfil-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.perfil-card:hover { border-color: var(--verde-claro); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+
+.perfil-avatar {
+  width: 56px;
+  height: 56px;
+  background: var(--verde-escuro);
+  border: 2px solid var(--verde);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  color: var(--amarelo);
+  margin: 0 auto 12px;
+}
+
+.perfil-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.perfil-stat-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--cinza);
+  margin-bottom: 4px;
+}
+
+.perfil-titles {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.title-badge {
+  font-size: 16px;
+  background: rgba(255,215,0,0.1);
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+/* ---- MODAL PERFIL ---- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal {
+  background: #111;
+  border: 2px solid var(--verde);
+  border-radius: 12px;
+  padding: 32px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: var(--cinza);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.modal-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px;
+  color: var(--amarelo);
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-box {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 14px;
+  text-align: center;
+}
+
+.stat-box-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  color: var(--verde-claro);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-box-label {
+  font-size: 10px;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ---- TOAST ---- */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: var(--verde);
+  color: var(--branco);
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  letter-spacing: 1px;
+  padding: 14px 24px;
+  border-radius: 8px;
+  z-index: 9999;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.error { background: var(--vermelho); }
+
+/* ---- CENTENARIO BADGE ---- */
+.cent-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--verde-escuro);
+  border: 1px solid var(--verde);
+  border-radius: 4px;
+  padding: 4px 12px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--verde-claro);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.cent-badge:hover, .cent-badge.active { background: var(--verde); color: var(--branco); }
+
+.cent-selector {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+/* ---- ERROR ---- */
+.error-box {
+  background: rgba(204,34,34,0.1);
+  border: 1px solid var(--vermelho);
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  color: #ff8888;
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 600px) {
+  .page { padding: 20px 16px; }
+  .header-inner { padding: 16px 20px; }
+  .logo-super, .logo-bola { font-size: 36px; }
+  .class-table td, .class-table th { padding: 10px 8px; font-size: 12px; }
+  .sorteio-wrapper { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .registo-players { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div id="loading">
+  <div class="loading-logo">SUPER:BOLA</div>
+  <div class="loading-bar"><div class="loading-bar-fill"></div></div>
+  <div class="loading-text">A carregar dados...</div>
+</div>
+
+<div id="app" style="display:none">
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <div><span class="logo-super">SUPER:</span><span class="logo-bola">BOLA</span></div>
+        <div class="logo-sub">A MELHOR LIGA DA: BRANCA</div>
+      </div>
+      <div class="header-stats" id="headerStats"></div>
+    </div>
+  </header>
+
+  <nav>
+    <button class="nav-btn active" onclick="showPage('classificacao')">🏆 Classificação</button>
+    <button class="nav-btn" onclick="showPage('titulos')">🥇 Títulos</button>
+    <button class="nav-btn" onclick="showPage('jogadores')">👥 Jogadores</button>
+    <button class="nav-btn" onclick="showPage('sorteio')">🎲 Sorteio</button></nav>
+
+  <!-- CLASSIFICAÇÃO -->
+  <div class="page active" id="page-classificacao">
+    <div class="section-title">📅 Classificação por Season</div>
+    <div class="cent-selector" id="centSelector"></div>
+    <div class="season-tabs" id="seasonTabs"></div>
+    <div id="seasonTable"></div>
+  </div>
+
+  <!-- TÍTULOS -->
+  <div class="page" id="page-titulos">
+    <div class="section-title">🥇 Títulos & Palmarés</div>
+    <div class="season-tabs" style="margin-bottom:24px" id="titulosSubTabs">
+      <button class="season-tab active" onclick="showTitulosTab('cent1',this)">1º Centenário</button>
+      <button class="season-tab" onclick="showTitulosTab('cent2',this)">2º Centenário</button>
+      <button class="season-tab" onclick="showTitulosTab('geral',this)">⭐ Geral</button>
+    </div>
+    <div id="titulosContent"></div>
+  </div>
+
+  <!-- JOGADORES -->
+  <div class="page" id="page-jogadores">
+    <div class="section-title">👥 Jogadores</div>
+    <div class="season-tabs" style="margin-bottom:24px" id="jogadoresSubTabs">
+      <button class="season-tab active" onclick="showJogadoresTab('cent1',this)">1º Centenário</button>
+      <button class="season-tab" onclick="showJogadoresTab('cent2',this)">2º Centenário</button>
+      <button class="season-tab" onclick="showJogadoresTab('geral',this)">⭐ Geral</button>
+    </div>
+    <div id="jogadoresContent"></div>
+  </div>
+  <!-- SORTEIO -->
+  <div class="page" id="page-sorteio">
+    <div class="section-title">🎲 Sorteio de Equipas</div>
+    <div id="sorteio-bloqueado" style="display:none; background:rgba(204,34,34,0.1); border:1px solid var(--vermelho); border-radius:12px; padding:28px; text-align:center; max-width:500px;">
+      <div style="font-size:48px; margin-bottom:12px">🔒</div>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--vermelho); letter-spacing:2px; margin-bottom:8px">SORTEIO BLOQUEADO</div>
+      <div style="font-family:'Oswald',sans-serif; font-size:14px; color:rgba(255,255,255,0.6);" id="sorteio-bloqueado-msg"></div>
+    </div>
+    <div id="sorteio-form">
+      <div class="sorteio-wrapper">
+        <div>
+          <div class="form-label">Membros presentes</div>
+          <div class="player-select-grid" id="sorteioPlayers"></div>
+          <div style="margin-top:16px; margin-bottom:8px;">
+            <div class="form-label">Convidados / Extras</div>
+            <div style="font-size:11px; color:rgba(255,255,255,0.4); font-family:'Inter',sans-serif; margin-bottom:8px;">Jogadores de fora do grupo — entram no sorteio mas não nas classificações</div>
+            <div class="player-select-grid" id="sorteioExtras"></div>
+            <div style="display:flex; gap:8px; margin-top:8px; align-items:center;">
+              <input type="text" id="extraName" class="form-input" placeholder="Nome do convidado..." style="max-width:200px; padding:8px 12px; font-size:13px;">
+              <button class="btn btn-verde" style="padding:8px 14px; font-size:12px;" onclick="addExtra()">+ Adicionar</button>
+            </div>
+          </div>
+          <div style="margin-top:4px; font-size:12px; color:rgba(255,255,255,0.4); font-family:'Inter',sans-serif;" id="sorteioCount">Selecionados: 0 / 10</div>
+          <button class="btn btn-primary" onclick="sortear()" style="margin-top:12px">🎲 Sortear Equipas</button>
+        </div>
+        <div>
+          <div class="form-label">Resultado do Sorteio</div>
+          <div id="sorteioResult" style="color:rgba(255,255,255,0.3); font-family:'Oswald',sans-serif; font-size:14px; padding:20px 0;">
+            Seleciona 10 jogadores e clica em Sortear
+          </div>
+          <div id="whatsappBtn" style="display:none; margin-top:16px;">
+            <button class="btn" style="background:#25D366; color:#fff; font-size:13px;" onclick="partilharWhatsApp()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              Partilhar no WhatsApp
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PERFIL -->
+<div class="modal-overlay" id="modalOverlay" style="display:none" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwTWnrPrgLyhEcgM_ER8ywebnc8qoLd4q-FtYO1Ioh9p9VodN5gmBson2_e7tWF5vhV/exec';
+
+// DATA
+let rawData = {"1º centenário": [["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "Época 1", "Matchday#1", "Matchday#2", "Matchday#3", "Matchday#4", "Matchday#5", "Matchday#6", "Matchday#7", "Matchday#8", "Matchday#9", "Matchday#10", "FINALE ?", "PONTUAÇÃO TOTAL", "RÁCIO", "PRESENÇAS", "VITÓRIAS", ""], ["", "Diogo Pereira", 4, 0, 4, 4, 0, 0, 0, 0, 0, 0, "", 12, 1, 3, 3, ""], ["", "João Almeida", 4, 4, 4, 4, 1, 1, 0, 0, 0, 0, "", 18, 0.6666666667, 6, 4, ""], ["", "Jorge Almeida", 1, 4, 0, 1, 4, 1, 0, 0, 0, 0, "", 11, 0.4, 5, 2, ""], ["", "Carlos Rafael", 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, "", 2, 0, 2, 0, ""], ["", "Litos Rios", 4, 4, 4, 1, 4, 4, 0, 0, 0, 0, "", 21, 0.8333333333, 6, 5, ""], ["", "Miguel Moura", 1, 1, 0, 4, 0, 0, 0, 0, 0, 0, "", 6, 0.3333333333, 3, 1, ""], ["", "Nuno Rios", 0, 0, 0, 0, 1, 4, 0, 0, 0, 0, "", 5, 0.5, 2, 1, ""], ["", "Pedro Almeida", 1, 1, 1, 4, 1, 1, 0, 0, 0, 0, "", 9, 0.1666666667, 6, 1, ""], ["", "André Carvalho", 1, 1, 1, 4, 4, 1, 0, 0, 0, 0, "", 12, 0.3333333333, 6, 2, ""], ["", "Rui Campia", 4, 1, 4, 1, 4, 4, 0, 0, 0, 0, "", 18, 0.6666666667, 6, 4, ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "Época 2", "Matchday#1", "Matchday#2", "Matchday#3", "Matchday#4", "Matchday#5", "Matchday#6", "Matchday#7", "Matchday#8", "Matchday#9", "Matchday#10", "FINALE ?", "PONTUAÇÃO TOTAL", "RÁCIO", "PRESENÇAS", "VITÓRIAS", ""], ["", "Diogo Pereira", 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, "", 4, 1, 1, 1, ""], ["", "João Marques", 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, "", 4, 1, 1, 1, ""], ["", "João Almeida", 1, 4, 1, 1, 4, 4, 0, 0, 0, 0, "", 15, 0.5, 6, 3, ""], ["", "Jorge Almeida", 1, 4, 1, 4, 1, 4, 0, 0, 0, 0, "", 15, 0.5, 6, 3, ""], ["", "Carlos Rafael", 4, 4, 0, 4, 4, 4, 0, 0, 0, 0, "", 20, 1, 5, 5, ""], ["", "Litos Rios", 4, 0, 4, 1, 1, 1, 0, 0, 0, 0, "", 11, 0.4, 5, 2, ""], ["", "Miguel Moura", 1, 1, 0, 1, 1, 4, 0, 0, 0, 0, "", 8, 0.2, 5, 1, ""], ["", "Nuno Rios", 1, 1, 4, 1, 1, 0, 0, 0, 0, 0, "", 8, 0.2, 5, 1, ""], ["", "Pedro Almeida", 1, 1, 4, 4, 1, 1, 0, 0, 0, 0, "", 12, 0.3333333333, 6, 2, ""], ["", "André Carvalho", 4, 1, 1, 1, 4, 1, 0, 0, 0, 0, "", 12, 0.3333333333, 6, 2, ""], ["", "Chucho", 4, 0, 4, 0, 0, 0, 0, 0, 0, 0, "", 8, 1, 2, 2, ""], ["", "João Batista", 0, 4, 0, 4, 4, 1, 0, 0, 0, 0, "", 13, 0.75, 4, 3, ""], ["", "Rui Campia", 4, 1, 0, 4, 0, 4, 0, 0, 0, 0, "", 13, 0.75, 4, 3, ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "Época 3", "Matchday#1", "Matchday#2", "Matchday#3", "Matchday#4", "Matchday#5", "Matchday#6", "Matchday#7", "Matchday#8", "Matchday#9", "Matchday#10", "FINALE ?", "PONTUAÇÃO TOTAL", "RÁCIO", "PRESENÇAS", "VITÓRIAS", ""], ["", "Diogo Pereira", 4, 0, 1, 4, 4, 1, 4, 4, 4, 1, 4, 31, 0.7, 10, 7, ""], ["", "João Marques", 1, 4, 4, 1, 1, 4, 1, 1, 4, 4, 0, 25, 0.5, 10, 5, ""], ["", "João Almeida", 0, 1, 4, 4, 0, 1, 1, 0, 4, 1, 4, 20, 0.5, 8, 4, ""], ["", "Jorge Almeida", 4, 1, 1, 1, 4, 4, 1, 1, 0, 4, 4, 25, 0.5, 10, 5, ""], ["", "Carlos Rafael", 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0.5, 2, 1, ""], ["", "Litos Rios", 1, 1, 4, 4, 1, 4, 4, 4, 4, 4, 1, 32, 0.6363636364, 11, 7, ""], ["", "Miguel Moura", 4, 4, 4, 4, 4, 4, 4, 1, 1, 1, 4, 35, 0.7272727273, 11, 8, ""], ["", "Nuno Rios", 1, 4, 0, 0, 1, 1, 4, 1, 1, 0, 1, 14, 0.25, 8, 2, ""], ["", "Pedro Almeida", 0, 0, 1, 0, 4, 1, 1, 0, 1, 4, 1, 13, 0.2857142857, 7, 2, ""], ["", "André Carvalho", 1, 0, 1, 0, 0, 0, 0, 4, 0, 1, 4, 11, 0.4, 5, 2, ""], ["", "Chucho", 0, 0, 0, 0, 1, 4, 0, 4, 1, 4, 0, 14, 0.6, 5, 3, ""], ["", "João Batista", 1, 1, 0, 4, 4, 1, 1, 4, 4, 1, 1, 22, 0.4, 10, 4, ""], ["", "Rui Campia", 4, 4, 1, 1, 0, 0, 0, 0, 0, 0, 0, 10, 0.5, 4, 2, ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "Época 4", "Matchday#1", "Matchday#2", "Matchday#3", "Matchday#4", "Matchday#5", "Matchday#6", "Matchday#7", "Matchday#8", "Matchday#9", "Matchday#10", "FINALE ?", "PONTUAÇÃO TOTAL", "RÁCIO", "PRESENÇAS", "VITÓRIAS", ""], ["", "Diogo Pereira", 1, 1, 0, 0, 1, 4, 4, 0, 4, 0, "", 15, 0.5, 6, 3, ""], ["", "João Marques", 4, 0, 1, 4, 0, 0, 4, 4, 4, 1, "", 22, 0.7142857143, 7, 5, ""], ["", "João Almeida", 4, 0, 0, 0, 1, 1, 0, 4, 1, 1, "", 12, 0.3333333333, 6, 2, ""], ["", "Jorge Almeida", 0, 1, 4, 1, 0, 1, 4, 1, 1, 0, "", 13, 0.2857142857, 7, 2, ""], ["", "Carlos Rafael", 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, "", 1, 0, 1, 0, ""], ["", "Litos Rios", 4, 1, 4, 4, 1, 1, 1, 4, 0, 4, "", 24, 0.5555555556, 9, 5, ""], ["", "Miguel Moura", 4, 4, 0, 1, 4, 1, 1, 4, 4, 4, "", 27, 0.6666666667, 9, 6, ""], ["", "Nuno Rios", 4, 4, 1, 1, 4, 4, 1, 0, 0, 0, "", 19, 0.5714285714, 7, 4, ""], ["", "Pedro Almeida", 0, 1, 1, 4, 4, 0, 4, 1, 1, 1, "", 17, 0.375, 8, 3, ""], ["", "André Carvalho", 1, 4, 1, 0, 1, 4, 0, 1, 0, 1, "", 13, 0.2857142857, 7, 2, ""], ["", "Chucho", 0, 0, 4, 4, 0, 0, 4, 4, 1, 4, "", 21, 0.8333333333, 6, 5, ""], ["", "João Batista", 1, 1, 4, 1, 4, 4, 1, 1, 4, 4, "", 25, 0.5, 10, 5, ""], ["", "Rui Campia", 0, 4, 4, 0, 1, 4, 0, 0, 0, 4, "", 17, 0.8, 5, 4, ""], ["", "Tiago Valente", 1, 4, 0, 4, 4, 1, 1, 1, 4, 1, "", 21, 0.4444444444, 9, 4, ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "Época 5", "Matchday#1", "Matchday#2", "Matchday#3", "Matchday#4", "Matchday#5", "Matchday#6", "Matchday#7", "Matchday#8", "Matchday#9", "Matchday#10", "FINALE ?", "PONTUAÇÃO TOTAL", "RÁCIO", "PRESENÇAS", "VITÓRIAS", ""], ["", "Litos Rios", 4, 4, 4, 4, 0, 4, 4, 4, 0, 0, "", 28, 1, 7, 7, ""], ["", "André Carvalho", 1, 1, 4, 4, 1, 0, 4, 1, 4, 4, "", 24, 0.5555555556, 9, 5, ""], ["", "Tiago Valente", 4, 1, 0, 1, 0, 4, 1, 4, 4, 4, "", 23, 0.625, 8, 5, ""], ["", "Miguel Moura", 1, 4, 1, 1, 4, 4, 4, 1, 0, 1, "", 21, 0.4444444444, 9, 4, ""], ["", "João Marques", 1, 0, 1, 1, 0, 4, 4, 4, 4, 1, "", 20, 0.5, 8, 4, ""], ["", "Pedro Almeida", 4, 1, 4, 4, 1, 1, 1, 0, 0, 4, "", 20, 0.5, 8, 4, ""], ["", "João Batista", 1, 4, 4, 0, 4, 1, 1, 1, 1, 1, "", 18, 0.3333333333, 9, 3, ""], ["", "Rui Campia", 4, 4, 1, 0, 4, 1, 0, 0, 0, 4, "", 18, 0.6666666667, 6, 4, ""], ["", "Jorge Almeida", 4, 1, 0, 4, 1, 4, 0, 1, 1, 1, "", 17, 0.375, 8, 3, ""], ["", "Nuno Rios", 1, 1, 1, 1, 4, 1, 1, 4, 1, 0, "", 15, 0.2222222222, 9, 2, ""], ["", "Diogo Pereira", 0, 4, 4, 4, 0, 0, 0, 1, 0, 0, "", 13, 0.75, 4, 3, ""], ["", "João Almeida", 0, 0, 1, 1, 0, 0, 0, 4, 1, 4, "", 11, 0.4, 5, 2, ""], ["", "Chucho", 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, "", 2, 0, 2, 0, ""], ["", "Carlos Rafael", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "Época 6", "Matchday#1", "Matchday#2", "Matchday#3", "Matchday#4", "Matchday#5", "Matchday#6", "Matchday#7", "Matchday#8", "Matchday#9", "Matchday#10", "FINALE ?", "PONTUAÇÃO TOTAL", "RÁCIO", "PRESENÇAS", "VITÓRIAS", ""], ["", "Litos Rios", 4, 4, 4, 0, 4, 0, 4, 1, 1, 0, "", 22, 0.7142857143, 7, 5, ""], ["", "André Carvalho", 0, 1, 1, 4, 0, 0, 0, 1, 1, 0, "", 8, 0.2, 5, 1, ""], ["", "Tiago Valente", 1, 0, 0, 4, 0, 0, 0, 0, 0, 4, "", 9, 0.6666666667, 3, 2, ""], ["", "Miguel Moura", 4, 4, 4, 1, 1, 1, 1, 4, 4, 1, "", 25, 0.5, 10, 5, ""], ["", "João Marques", 4, 1, 4, 4, 1, 1, 1, 1, 4, 1, "", 22, 0.4, 10, 4, ""], ["", "Pedro Almeida", 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, "", 2, 0, 2, 0, ""], ["", "João Batista", 0, 1, 0, 1, 0, 0, 1, 0, 1, 4, "", 8, 0.2, 5, 1, ""], ["", "Rui Campia", 1, 1, 1, 4, 4, 4, 1, 1, 1, 1, "", 19, 0.3, 10, 3, ""], ["", "Jorge Almeida", 0, 0, 0, 0, 0, 0, 0, 4, 4, 0, "", 8, 1, 2, 2, ""], ["", "Nuno Rios", 4, 4, 1, 1, 4, 4, 4, 4, 1, 4, "", 31, 0.7, 10, 7, ""], ["", "Diogo Pereira", 1, 1, 0, 0, 1, 1, 0, 0, 4, 0, "", 8, 0.2, 5, 1, ""], ["", "João Almeida", 0, 4, 1, 0, 0, 1, 0, 0, 0, 1, "", 7, 0.25, 4, 1, ""], ["", "Chucho", 0, 4, 1, 0, 4, 1, 4, 4, 0, 0, "", 18, 0.6666666667, 6, 4, ""], ["", "Carlos Rafael", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "Época 7", "Matchday#1", "Matchday#2", "Matchday#3", "Matchday#4", "Matchday#5", "Matchday#6", "Matchday#7", "Matchday#8", "Matchday#9", "Matchday#10", "FINALE ?", "PONTUAÇÃO TOTAL", "RÁCIO", "PRESENÇAS", "VITÓRIAS", ""], ["", "Litos Rios", 4, 1, 1, 0, 0, 1, 1, 4, 1, 4, "", 17, 0.375, 8, 3, ""], ["", "André Carvalho", 0, 1, 0, 0, 4, 1, 4, 4, 4, 4, "", 22, 0.7142857143, 7, 5, ""], ["", "Tiago Valente", 4, 0, 0, 0, 0, 0, 0, 0, 1, 4, "", 9, 0.6666666667, 3, 2, ""], ["", "Miguel Moura", 1, 4, 4, 4, 1, 4, 4, 1, 4, 1, "", 28, 0.6, 10, 6, ""], ["", "João Marques", 4, 0, 4, 4, 0, 4, 4, 1, 4, 1, "", 26, 0.75, 8, 6, ""], ["", "Pedro Almeida", 0, 1, 0, 0, 1, 4, 1, 1, 4, 0, "", 12, 0.3333333333, 6, 2, ""], ["", "João Batista", 1, 0, 4, 0, 0, 1, 0, 0, 0, 1, "", 7, 0.25, 4, 1, ""], ["", "Rui Campia", 0, 4, 1, 1, 0, 4, 0, 1, 4, 0, "", 15, 0.5, 6, 3, ""], ["", "Jorge Almeida", 1, 4, 4, 1, 4, 0, 0, 4, 0, 4, "", 22, 0.7142857143, 7, 5, ""], ["", "Nuno Rios", 1, 1, 1, 0, 4, 1, 1, 4, 1, 0, "", 14, 0.25, 8, 2, ""], ["", "Diogo Pereira", 0, 4, 1, 1, 4, 4, 4, 4, 1, 0, "", 23, 0.625, 8, 5, ""], ["", "João Almeida", 0, 0, 4, 1, 0, 1, 0, 0, 1, 0, "", 7, 0.25, 4, 1, ""], ["", "Chucho", 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, "", 1, 0, 1, 0, ""], ["", "Carlos Rafael", 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, "", 1, 0, 1, 0, ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "Época 8", "Matchday#1", "Matchday#2", "Matchday#3", "Matchday#4", "Matchday#5", "Matchday#6", "Matchday#7", "Matchday#8", "Matchday#9", "Matchday#10", "FINALE ?", "PONTUAÇÃO TOTAL", "RÁCIO", "PRESENÇAS", "VITÓRIAS", ""], ["", "Litos Rios", 4, 1, 1, 1, 4, 4, 4, 1, 4, 1, "", 25, 0.5, 10, 5, ""], ["", "André Carvalho", 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, "", 4, 0, 4, 0, ""], ["", "Tiago Valente", 0, 1, 4, 1, 4, 4, 1, 1, 1, 4, "", 21, 0.4444444444, 9, 4, ""], ["", "Miguel Moura", 4, 4, 4, 4, 1, 1, 1, 1, 1, 4, "", 25, 0.5, 10, 5, ""], ["", "João Marques", 1, 4, 4, 4, 1, 1, 1, 1, 1, 4, "", 22, 0.4, 10, 4, ""], ["", "Pedro Almeida", 1, 4, 1, 1, 4, 1, 1, 4, 1, 4, "", 22, 0.4, 10, 4, ""], ["", "João Batista", 0, 0, 0, 4, 0, 1, 4, 0, 4, 4, "", 17, 0.8, 5, 4, ""], ["", "Rui Campia", 4, 1, 4, 4, 1, 1, 4, 4, 4, 0, "", 27, 0.6666666667, 9, 6, ""], ["", "Jorge Almeida", 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", 4, 1, 1, 1, ""], ["", "Nuno Rios", 0, 0, 0, 1, 4, 4, 4, 4, 4, 1, "", 22, 0.7142857143, 7, 5, ""], ["", "Diogo Pereira", 1, 1, 0, 1, 1, 0, 4, 4, 0, 0, "", 12, 0.3333333333, 6, 2, ""], ["", "João Almeida", 0, 0, 0, 4, 0, 0, 0, 0, 1, 0, "", 5, 0.5, 2, 1, ""], ["", "Chucho", 0, 0, 1, 0, 1, 4, 0, 0, 0, 0, "", 6, 0.3333333333, 3, 1, ""], ["", "Carlos Rafael", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "PAGAR PRIOR", 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, "", "", "", "", "", ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "Época 9", "Matchday#1", "Matchday#2", "Matchday#3", "Matchday#4", "Matchday#5", "Matchday#6", "Matchday#7", "Matchday#8", "Matchday#9", "Matchday#10", "FINALE ?", "PONTUAÇÃO TOTAL", "RÁCIO", "PRESENÇAS", "VITÓRIAS", ""], ["", "Litos Rios", 1, 4, 1, 1, 4, 4, 1, 1, 4, 0, "", 21, 0.4444444444, 9, 4, ""], ["", "André Carvalho", 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, "", 2, 0, 2, 0, ""], ["", "Tiago Valente", 1, 0, 1, 1, 4, 4, 4, 4, 4, 1, "", 24, 0.5555555556, 9, 5, ""], ["", "Miguel Moura", 4, 1, 1, 1, 4, 1, 1, 4, 1, 4, "", 22, 0.4, 10, 4, ""], ["", "João Marques", 0, 0, 4, 4, 0, 0, 0, 4, 0, 4, "", 16, 1, 4, 4, ""], ["", "Pedro Almeida", 4, 4, 0, 0, 0, 0, 0, 0, 0, 1, "", 9, 0.6666666667, 3, 2, ""], ["", "João Batista", 1, 1, 4, 0, 1, 1, 1, 4, 1, 0, "", 14, 0.25, 8, 2, ""], ["", "Rui Campia", 0, 4, 4, 4, 1, 4, 4, 1, 4, 4, "", 30, 0.7777777778, 9, 7, ""], ["", "Jorge Almeida", 4, 4, 0, 0, 0, 1, 4, 4, 4, 0, "", 21, 0.8333333333, 6, 5, ""], ["", "Nuno Rios", 1, 0, 0, 0, 4, 4, 0, 1, 1, 1, "", 12, 0.3333333333, 6, 2, ""], ["", "Diogo Pereira", 4, 0, 4, 0, 4, 0, 4, 1, 0, 1, "", 18, 0.6666666667, 6, 4, ""], ["", "João Almeida", 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, "", 3, 0, 3, 0, ""], ["", "Chucho", 0, 4, 4, 4, 1, 1, 0, 0, 0, 0, "", 14, 0.6, 5, 3, ""], ["", "Carlos Rafael", 4, 0, 0, 0, 1, 4, 1, 0, 1, 4, "", 15, 0.5, 6, 3, ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "PAGAR PRIOR", 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, "", "", "", "", "", ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "Época 10", "Matchday#1", "Matchday#2", "Matchday#3", "Matchday#4", "Matchday#5", "Matchday#6", "Matchday#7", "Matchday#8", "Matchday#9", "Matchday#10", "FINALE ?", "PONTUAÇÃO TOTAL", "RÁCIO", "PRESENÇAS", "VITÓRIAS", ""], ["", "Litos Rios", 0, 1, 4, 1, 4, 4, 4, 1, 4, 1, "", 24, 0.5555555556, 9, 5, ""], ["", "André Carvalho", 0, 0, 0, 0, 0, 0, 0, 4, 4, 4, "", 12, 1, 3, 3, ""], ["", "Tiago Valente", 4, 4, 0, 1, 4, 0, 1, 4, 4, 4, "", 26, 0.75, 8, 6, ""], ["", "Miguel Moura", 1, 4, 4, 4, 4, 1, 1, 4, 1, 1, "", 25, 0.5, 10, 5, ""], ["", "João Marques", 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, "", 4, 1, 1, 1, ""], ["", "Pedro Almeida", 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, "", 4, 1, 1, 1, ""], ["", "João Batista", 1, 1, 4, 1, 1, 1, 0, 4, 0, 1, "", 14, 0.25, 8, 2, ""], ["", "Rui Campia", 4, 4, 4, 0, 1, 0, 4, 1, 0, 0, "", 18, 0.6666666667, 6, 4, ""], ["", "Jorge Almeida", 1, 1, 1, 4, 4, 4, 4, 1, 0, 1, "", 21, 0.4444444444, 9, 4, ""], ["", "Nuno Rios", 4, 1, 1, 1, 1, 4, 0, 1, 1, 4, "", 18, 0.3333333333, 9, 3, ""], ["", "Diogo Pereira", 4, 4, 4, 4, 1, 0, 4, 4, 1, 4, "", 30, 0.7777777778, 9, 7, ""], ["", "João Almeida", 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, "", 2, 0, 2, 0, ""], ["", "Chucho", 4, 0, 1, 0, 0, 1, 4, 0, 1, 0, "", 11, 0.4, 5, 2, ""], ["", "Carlos Rafael", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "PAGAR PRIOR", 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, "", "", "", "", "", ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "Época 11", "Matchday#1", "Matchday#2", "Matchday#3", "Matchday#4", "Matchday#5", "Matchday#6", "Matchday#7 (100)", "Matchday#8", "Matchday#9", "Matchday#10", "FINALE ?", "PONTUAÇÃO TOTAL", "RÁCIO", "PRESENÇAS", "VITÓRIAS", ""], ["", "Litos Rios", 4, 4, 4, 4, 4, 4, 1, 0, 0, 0, "", 25, 0.8571428571, 7, 6, ""], ["", "André Carvalho", 1, 4, 4, 0, 0, 1, 1, 0, 0, 0, "", 11, 0.4, 5, 2, ""], ["", "Tiago Valente", 1, 4, 0, 1, 4, 1, 1, 0, 0, 0, "", 12, 0.3333333333, 6, 2, ""], ["", "Miguel Moura", 4, 1, 4, 4, 1, 1, 4, 0, 0, 0, "", 19, 0.5714285714, 7, 4, ""], ["", "João Marques", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, ""], ["", "Pedro Almeida", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, ""], ["", "João Batista", 4, 1, 4, 4, 1, 1, 1, 0, 0, 0, "", 16, 0.4285714286, 7, 3, ""], ["", "Rui Campia", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, ""], ["", "Jorge Almeida", 4, 0, 1, 1, 0, 0, 4, 0, 0, 0, "", 10, 0.5, 4, 2, ""], ["", "Nuno Rios", 1, 4, 1, 0, 0, 0, 4, 0, 0, 0, "", 10, 0.5, 4, 2, ""], ["", "Diogo Pereira", 1, 0, 1, 1, 4, 4, 0, 0, 0, 0, "", 11, 0.4, 5, 2, ""], ["", "João Almeida", 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, "", 1, 0, 1, 0, ""], ["", "Chucho", 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, "", 4, 1, 1, 1, ""], ["", "Carlos Rafael", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "PAGAR PRIOR", 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, "", "", "", "", "", ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "", "", "", "", "", "SUPER:BOLA - CLASSIFICAÇÃO FINAL 1º CENTENÁRIO", "", "", "", "", "", "", "", "", "", "", ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "", "Centenário  /     Season", "Tarefa1: Chaves,Pagar Prior,Excel", "Tarefa2: Sondagem,Sorteio,Bolas", "", "PARÇA", "CAMPEÃO", "VICE-CAMPEÃO", "", "Jogos", "Vitórias", "Rácio", "Nome", "Performance", "", "", ""], ["", "", "Season 1", "Jorge Nuno", "Jorge Nuno", "", "André Carvalho", "", 1, "", 65, 40, 0.6153846154, "Rui Campia", "BOM", "", "", ""], ["", "", "Season 2", "Jorge Nuno", "Jorge Nuno", "", "Carlos Rafael", 1, "", "", 88, 54, 0.6136363636, "Litos Rios", "BOM", "", "90% - 100% lendário", ""], ["", "", "Season 3", "Jorge Nuno", "Jorge Nuno", "", "Chucho", "", "", "", 63, 38, 0.6031746032, "Diogo Pereira", "BOM", "", "80% - 89,9%classe mundial", ""], ["", "", "Season 4", "Jorge Nuno", "Jorge Nuno", "", "Diogo Pereira", 1, "", "", 55, 30, 0.5454545455, "Tiago Valente", "AJEITA-SE", "", "70% - 79,9% muito bom", ""], ["", "", "Season 5", "Nuno Rios", "Jorge Nuno", "", "João Almeida", "", 2, "", 17, 9, 0.5294117647, "Carlos Rafael", "AJEITA-SE", "", "60% - 69,9% bom", ""], ["", "", "Season 6", "Litos Rios", "Miguel Moura", "", "João Batista", "", 1, "", 65, 34, 0.5230769231, "Jorge Almeida", "AJEITA-SE", "", "50% - 59,9% ajeita-se", ""], ["", "", "Season 7", "Litos Rios", "Miguel Moura", "", "João Marques", "", 1, "", 94, 49, 0.5212765957, "Miguel Moura", "AJEITA-SE", "", "40% - 49,9% esforçado", ""], ["", "", "Season 8", "Litos Rios", "Miguel Moura", "", "Jorge Almeida", "", 1, "", 75, 31, 0.4133333333, "Nuno Rios", "ESFORÇADO", "", "30% - 39,9% safa", ""], ["", "", "Season 9", "Pedro Almeida", "Rui Campia", "", "Litos Rios", 3, 2, "", 59, 24, 0.406779661, "André Carvalho", "ESFORÇADO", "", "20% - 29,9% mau", ""], ["", "", "Season 10", "Tiago Valente", "João Batista", "", "Miguel Moura", 3, 3, "", 70, 28, 0.4, "João Batista", "ESFORÇADO", "", "10% - 19,9% penoso", ""], ["", "", "Season 11", "Nuno Rios", "João Batista", "", "Nuno Rios", 1, "", "", 47, 18, 0.3829787234, "João Almeida", "SAFA", "", "0% - 9,9% lamentável", "(+0 presenças)"], ["", "", "", "", "", "", "Pedro Almeida", "", "", "", 57, 21, 0.3684210526, "Pedro Almeida", "SAFA", "", "0% inútil", "(0 presenças)"], ["", "", "", "", "", "", "Rui Campia", 2, 1, "", "", "", "", "", "", "", "", ""], ["", "", "", "", "", "", "Tiago Valente", "", 2, "", "", "", "", "", "", "", "", ""]], "2º centenário": [["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "Época 1", "Matchday#1", "Matchday#2", "Matchday#3", "Matchday#4", "Matchday#5", "Matchday#6", "Matchday#7", "Matchday#8", "Matchday#9", "Matchday#10", "FINALE ?", "Época 1", "PONTUAÇÃO TOTAL", "RÁCIO", "PRESENÇAS", "VITÓRIAS"], ["", "André Carvalho", 4, 4, 4, 4, 1, 0, 4, 1, 4, 1, "", "André Carvalho", 27, 0.6666666667, 9, 6], ["", "Carlos Rafael", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", "Carlos Rafael", 0, 0, 0, 0], ["", "Diogo Pereira", 0, 1, 0, 0, 0, 0, 0, 0, 4, 1, "", "Diogo Pereira", 6, 0.3333333333, 3, 1], ["", "João Almeida", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", "João Almeida", 0, 0, 0, 0], ["", "João Batista", 1, 1, 1, 1, 4, 4, 1, 4, 1, 4, "", "João Batista", 22, 0.4, 10, 4], ["", "Jorge Almeida", 4, 0, 4, 0, 4, 4, 0, 1, 1, 0, "", "Jorge Almeida", 18, 0.6666666667, 6, 4], ["", "Litos Rios", 4, 1, 1, 4, 4, 1, 4, 1, 1, 4, "", "Litos Rios", 25, 0.5, 10, 5], ["", "Miguel Moura", 1, 1, 0, 1, 4, 4, 1, 4, 0, 4, "", "Miguel Moura", 20, 0.5, 8, 4], ["", "Nuno Rios", 0, 4, 1, 4, 1, 1, 4, 1, 1, 1, "", "Nuno Rios", 18, 0.3333333333, 9, 3], ["", "Pedro Almeida", 0, 0, 0, 0, 0, 4, 4, 4, 4, 4, "", "Pedro Almeida", 20, 1, 5, 5], ["", "Rui Campia", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", "Rui Campia", 0, 0, 0, 0], ["", "Tiago Valente", 0, 1, 1, 0, 4, 1, 0, 1, 1, 1, "", "Tiago Valente", 10, 0.1428571429, 7, 1], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "PAGAR PRIOR", "Pago", "Pago", "Pago", "Pago", "Pago", "Pago", "Pago", "Pago", "Pago", "Pago", "", "PAGAR PRIOR", "", "", "", ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "Época 2", "Matchday#1", "Matchday#2", "Matchday#3", "Matchday#4", "Matchday#5", "Matchday#6", "Matchday#7", "Matchday#8", "Matchday#9", "Matchday#10", "FINALE ?", "Época 2", "PONTUAÇÃO TOTAL", "RÁCIO", "PRESENÇAS", "VITÓRIAS"], ["", "André Carvalho", 0, 4, 4, 0, 4, 1, 0, 0, 4, 0, "", "André Carvalho", 17, 0.8, 5, 4], ["", "Carlos Rafael", 0, 0, 0, 0, 0, 4, 4, 1, 0, 0, "", "Carlos Rafael", 9, 0.6666666667, 3, 2], ["", "Diogo Pereira", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", "Diogo Pereira", 0, 0, 0, 0], ["", "João Almeida", 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, "", "João Almeida", 2, 0, 2, 0], ["", "João Batista", 4, 1, 1, 4, 4, 4, 4, 1, 4, 1, "", "João Batista", 28, 0.6, 10, 6], ["", "Jorge Almeida", 4, 1, 4, 1, 0, 4, 4, 0, 0, 4, "", "Jorge Almeida", 22, 0.7142857143, 7, 5], ["", "Litos Rios", 4, 1, 0, 4, 4, 1, 1, 0, 1, 4, "", "Litos Rios", 20, 0.5, 8, 4], ["", "Miguel Moura", 1, 1, 1, 1, 1, 4, 0, 4, 1, 1, "", "Miguel Moura", 15, 0.2222222222, 9, 2], ["", "Nuno Rios", 0, 0, 4, 4, 0, 1, 4, 1, 4, 0, "", "Nuno Rios", 18, 0.6666666667, 6, 4], ["", "Pedro Almeida", 4, 4, 1, 4, 4, 1, 0, 0, 0, 0, "", "Pedro Almeida", 18, 0.6666666667, 6, 4], ["", "Rui Campia", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", "Rui Campia", 0, 0, 0, 0], ["", "Tiago Valente", 1, 4, 4, 0, 1, 1, 1, 1, 0, 1, "", "Tiago Valente", 14, 0.25, 8, 2], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "PAGAR PRIOR", "Pago", "Pago", "Pago", "Pago", "Pago", "Pago", "Pago", "Pago", "Pago", "Pago", "", "PAGAR PRIOR", "", "", "", ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "Época 3", "Matchday#1", "Matchday#2", "Matchday#3", "Matchday#4", "Matchday#5", "Matchday#6", "Matchday#7", "Matchday#8", "Matchday#9", "Matchday#10", "FINALE ?", "Época 3", "PONTUAÇÃO TOTAL", "RÁCIO", "PRESENÇAS", "VITÓRIAS"], ["", "André Carvalho", 0, 4, 4, 1, "", "", "", "", "", "", "", "André Carvalho", 9, 0.6666666667, 3, 2], ["", "Carlos Rafael", 0, 0, 0, 0, "", "", "", "", "", "", "", "Carlos Rafael", 0, 0, 0, 0], ["", "Diogo Pereira", 0, 0, 1, 0, "", "", "", "", "", "", "", "Diogo Pereira", 1, 0, 1, 0], ["", "João Almeida", 0, 0, 0, 0, "", "", "", "", "", "", "", "João Almeida", 0, 0, 0, 0], ["", "João Batista", 1, 1, 1, 1, "", "", "", "", "", "", "", "João Batista", 4, 0, 4, 0], ["", "Jorge Almeida", 4, 1, 0, 1, "", "", "", "", "", "", "", "Jorge Almeida", 6, 0.3333333333, 3, 1], ["", "Litos Rios", 4, 4, 4, 4, "", "", "", "", "", "", "", "Litos Rios", 16, 1, 4, 4], ["", "Miguel Moura", 1, 1, 1, 4, "", "", "", "", "", "", "", "Miguel Moura", 7, 0.25, 4, 1], ["", "Nuno Rios", 0, 0, 0, 1, "", "", "", "", "", "", "", "Nuno Rios", 1, 0, 1, 0], ["", "Pedro Almeida", 0, 0, 0, 0, "", "", "", "", "", "", "", "Pedro Almeida", 0, 0, 0, 0], ["", "Rui Campia", 0, 0, 0, 0, "", "", "", "", "", "", "", "Rui Campia", 0, 0, 0, 0], ["", "Tiago Valente", 1, 4, 0, 0, "", "", "", "", "", "", "", "Tiago Valente", 5, 0.5, 2, 1], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "PAGAR PRIOR", "", "", "", "", "", "", "", "", "", "", "", "PAGAR PRIOR", "", "", "", ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "Época 4", "Matchday#1", "Matchday#2", "Matchday#3", "Matchday#4", "Matchday#5", "Matchday#6", "Matchday#7", "Matchday#8", "Matchday#9", "Matchday#10", "FINALE ?", "Época 4", "PONTUAÇÃO TOTAL", "RÁCIO", "PRESENÇAS", "VITÓRIAS"], ["", "André Carvalho", "", "", "", "", "", "", "", "", "", "", "", "André Carvalho", 0, 0, 0, 0], ["", "Carlos Rafael", "", "", "", "", "", "", "", "", "", "", "", "Carlos Rafael", 0, 0, 0, 0], ["", "Diogo Pereira", "", "", "", "", "", "", "", "", "", "", "", "Diogo Pereira", 0, 0, 0, 0], ["", "João Almeida", "", "", "", "", "", "", "", "", "", "", "", "João Almeida", 0, 0, 0, 0], ["", "João Batista", "", "", "", "", "", "", "", "", "", "", "", "João Batista", 0, 0, 0, 0], ["", "Jorge Almeida", "", "", "", "", "", "", "", "", "", "", "", "Jorge Almeida", 0, 0, 0, 0], ["", "Litos Rios", "", "", "", "", "", "", "", "", "", "", "", "Litos Rios", 0, 0, 0, 0], ["", "Miguel Moura", "", "", "", "", "", "", "", "", "", "", "", "Miguel Moura", 0, 0, 0, 0], ["", "Nuno Rios", "", "", "", "", "", "", "", "", "", "", "", "Nuno Rios", 0, 0, 0, 0], ["", "Pedro Almeida", "", "", "", "", "", "", "", "", "", "", "", "Pedro Almeida", 0, 0, 0, 0], ["", "Rui Campia", "", "", "", "", "", "", "", "", "", "", "", "Rui Campia", 0, 0, 0, 0], ["", "Tiago Valente", "", "", "", "", "", "", "", "", "", "", "", "Tiago Valente", 0, 0, 0, 0], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "PAGAR PRIOR", "", "", "", "", "", "", "", "", "", "", "", "PAGAR PRIOR", "", "", "", ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "Época 5", "Matchday#1", "Matchday#2", "Matchday#3", "Matchday#4", "Matchday#5", "Matchday#6", "Matchday#7", "Matchday#8", "Matchday#9", "Matchday#10", "FINALE ?", "Época 5", "PONTUAÇÃO TOTAL", "RÁCIO", "PRESENÇAS", "VITÓRIAS"], ["", "André Carvalho", "", "", "", "", "", "", "", "", "", "", "", "André Carvalho", 0, 0, 0, 0], ["", "Carlos Rafael", "", "", "", "", "", "", "", "", "", "", "", "Carlos Rafael", 0, 0, 0, 0], ["", "Diogo Pereira", "", "", "", "", "", "", "", "", "", "", "", "Diogo Pereira", 0, 0, 0, 0], ["", "João Almeida", "", "", "", "", "", "", "", "", "", "", "", "João Almeida", 0, 0, 0, 0], ["", "João Batista", "", "", "", "", "", "", "", "", "", "", "", "João Batista", 0, 0, 0, 0], ["", "Jorge Almeida", "", "", "", "", "", "", "", "", "", "", "", "Jorge Almeida", 0, 0, 0, 0], ["", "Litos Rios", "", "", "", "", "", "", "", "", "", "", "", "Litos Rios", 0, 0, 0, 0], ["", "Miguel Moura", "", "", "", "", "", "", "", "", "", "", "", "Miguel Moura", 0, 0, 0, 0], ["", "Nuno Rios", "", "", "", "", "", "", "", "", "", "", "", "Nuno Rios", 0, 0, 0, 0], ["", "Pedro Almeida", "", "", "", "", "", "", "", "", "", "", "", "Pedro Almeida", 0, 0, 0, 0], ["", "Rui Campia", "", "", "", "", "", "", "", "", "", "", "", "Rui Campia", 0, 0, 0, 0], ["", "Tiago Valente", "", "", "", "", "", "", "", "", "", "", "", "Tiago Valente", 0, 0, 0, 0], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "PAGAR PRIOR", "", "", "", "", "", "", "", "", "", "", "", "PAGAR PRIOR", "", "", "", ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "Época 6", "Matchday#1", "Matchday#2", "Matchday#3", "Matchday#4", "Matchday#5", "Matchday#6", "Matchday#7", "Matchday#8", "Matchday#9", "Matchday#10", "FINALE ?", "Época 6", "PONTUAÇÃO TOTAL", "RÁCIO", "PRESENÇAS", "VITÓRIAS"], ["", "André Carvalho", "", "", "", "", "", "", "", "", "", "", "", "André Carvalho", 0, 0, 0, 0], ["", "Carlos Rafael", "", "", "", "", "", "", "", "", "", "", "", "Carlos Rafael", 0, 0, 0, 0], ["", "Diogo Pereira", "", "", "", "", "", "", "", "", "", "", "", "Diogo Pereira", 0, 0, 0, 0], ["", "João Almeida", "", "", "", "", "", "", "", "", "", "", "", "João Almeida", 0, 0, 0, 0], ["", "João Batista", "", "", "", "", "", "", "", "", "", "", "", "João Batista", 0, 0, 0, 0], ["", "Jorge Almeida", "", "", "", "", "", "", "", "", "", "", "", "Jorge Almeida", 0, 0, 0, 0], ["", "Litos Rios", "", "", "", "", "", "", "", "", "", "", "", "Litos Rios", 0, 0, 0, 0], ["", "Miguel Moura", "", "", "", "", "", "", "", "", "", "", "", "Miguel Moura", 0, 0, 0, 0], ["", "Nuno Rios", "", "", "", "", "", "", "", "", "", "", "", "Nuno Rios", 0, 0, 0, 0], ["", "Pedro Almeida", "", "", "", "", "", "", "", "", "", "", "", "Pedro Almeida", 0, 0, 0, 0], ["", "Rui Campia", "", "", "", "", "", "", "", "", "", "", "", "Rui Campia", 0, 0, 0, 0], ["", "Tiago Valente", "", "", "", "", "", "", "", "", "", "", "", "Tiago Valente", 0, 0, 0, 0], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "PAGAR PRIOR", "", "", "", "", "", "", "", "", "", "", "", "PAGAR PRIOR", "", "", "", ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "Época 7", "Matchday#1", "Matchday#2", "Matchday#3", "Matchday#4", "Matchday#5", "Matchday#6", "Matchday#7", "Matchday#8", "Matchday#9", "Matchday#10", "FINALE ?", "Época 7", "PONTUAÇÃO TOTAL", "RÁCIO", "PRESENÇAS", "VITÓRIAS"], ["", "André Carvalho", "", "", "", "", "", "", "", "", "", "", "", "André Carvalho", 0, 0, 0, 0], ["", "Carlos Rafael", "", "", "", "", "", "", "", "", "", "", "", "Carlos Rafael", 0, 0, 0, 0], ["", "Diogo Pereira", "", "", "", "", "", "", "", "", "", "", "", "Diogo Pereira", 0, 0, 0, 0], ["", "João Almeida", "", "", "", "", "", "", "", "", "", "", "", "João Almeida", 0, 0, 0, 0], ["", "João Batista", "", "", "", "", "", "", "", "", "", "", "", "João Batista", 0, 0, 0, 0], ["", "Jorge Almeida", "", "", "", "", "", "", "", "", "", "", "", "Jorge Almeida", 0, 0, 0, 0], ["", "Litos Rios", "", "", "", "", "", "", "", "", "", "", "", "Litos Rios", 0, 0, 0, 0], ["", "Miguel Moura", "", "", "", "", "", "", "", "", "", "", "", "Miguel Moura", 0, 0, 0, 0], ["", "Nuno Rios", "", "", "", "", "", "", "", "", "", "", "", "Nuno Rios", 0, 0, 0, 0], ["", "Pedro Almeida", "", "", "", "", "", "", "", "", "", "", "", "Pedro Almeida", 0, 0, 0, 0], ["", "Rui Campia", "", "", "", "", "", "", "", "", "", "", "", "Rui Campia", 0, 0, 0, 0], ["", "Tiago Valente", "", "", "", "", "", "", "", "", "", "", "", "Tiago Valente", 0, 0, 0, 0], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "PAGAR PRIOR", "", "", "", "", "", "", "", "", "", "", "", "PAGAR PRIOR", "", "", "", ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "Época 8", "Matchday#1", "Matchday#2", "Matchday#3", "Matchday#4", "Matchday#5", "Matchday#6", "Matchday#7", "Matchday#8", "Matchday#9", "Matchday#10", "FINALE ?", "Época 8", "PONTUAÇÃO TOTAL", "RÁCIO", "PRESENÇAS", "VITÓRIAS"], ["", "André Carvalho", "", "", "", "", "", "", "", "", "", "", "", "André Carvalho", 0, 0, 0, 0], ["", "Carlos Rafael", "", "", "", "", "", "", "", "", "", "", "", "Carlos Rafael", 0, 0, 0, 0], ["", "Diogo Pereira", "", "", "", "", "", "", "", "", "", "", "", "Diogo Pereira", 0, 0, 0, 0], ["", "João Almeida", "", "", "", "", "", "", "", "", "", "", "", "João Almeida", 0, 0, 0, 0], ["", "João Batista", "", "", "", "", "", "", "", "", "", "", "", "João Batista", 0, 0, 0, 0], ["", "Jorge Almeida", "", "", "", "", "", "", "", "", "", "", "", "Jorge Almeida", 0, 0, 0, 0], ["", "Litos Rios", "", "", "", "", "", "", "", "", "", "", "", "Litos Rios", 0, 0, 0, 0], ["", "Miguel Moura", "", "", "", "", "", "", "", "", "", "", "", "Miguel Moura", 0, 0, 0, 0], ["", "Nuno Rios", "", "", "", "", "", "", "", "", "", "", "", "Nuno Rios", 0, 0, 0, 0], ["", "Pedro Almeida", "", "", "", "", "", "", "", "", "", "", "", "Pedro Almeida", 0, 0, 0, 0], ["", "Rui Campia", "", "", "", "", "", "", "", "", "", "", "", "Rui Campia", 0, 0, 0, 0], ["", "Tiago Valente", "", "", "", "", "", "", "", "", "", "", "", "Tiago Valente", 0, 0, 0, 0], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "PAGAR PRIOR", "", "", "", "", "", "", "", "", "", "", "", "PAGAR PRIOR", "", "", "", ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "Época 9", "Matchday#1", "Matchday#2", "Matchday#3", "Matchday#4", "Matchday#5", "Matchday#6", "Matchday#7", "Matchday#8", "Matchday#9", "Matchday#10", "FINALE ?", "Época 9", "PONTUAÇÃO TOTAL", "RÁCIO", "PRESENÇAS", "VITÓRIAS"], ["", "André Carvalho", "", "", "", "", "", "", "", "", "", "", "", "André Carvalho", 0, 0, 0, 0], ["", "Carlos Rafael", "", "", "", "", "", "", "", "", "", "", "", "Carlos Rafael", 0, 0, 0, 0], ["", "Diogo Pereira", "", "", "", "", "", "", "", "", "", "", "", "Diogo Pereira", 0, 0, 0, 0], ["", "João Almeida", "", "", "", "", "", "", "", "", "", "", "", "João Almeida", 0, 0, 0, 0], ["", "João Batista", "", "", "", "", "", "", "", "", "", "", "", "João Batista", 0, 0, 0, 0], ["", "Jorge Almeida", "", "", "", "", "", "", "", "", "", "", "", "Jorge Almeida", 0, 0, 0, 0], ["", "Litos Rios", "", "", "", "", "", "", "", "", "", "", "", "Litos Rios", 0, 0, 0, 0], ["", "Miguel Moura", "", "", "", "", "", "", "", "", "", "", "", "Miguel Moura", 0, 0, 0, 0], ["", "Nuno Rios", "", "", "", "", "", "", "", "", "", "", "", "Nuno Rios", 0, 0, 0, 0], ["", "Pedro Almeida", "", "", "", "", "", "", "", "", "", "", "", "Pedro Almeida", 0, 0, 0, 0], ["", "Rui Campia", "", "", "", "", "", "", "", "", "", "", "", "Rui Campia", 0, 0, 0, 0], ["", "Tiago Valente", "", "", "", "", "", "", "", "", "", "", "", "Tiago Valente", 0, 0, 0, 0], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "PAGAR PRIOR", "", "", "", "", "", "", "", "", "", "", "", "PAGAR PRIOR", "", "", "", ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "Época 10", "Matchday#1", "Matchday#2", "Matchday#3", "Matchday#4", "Matchday#5", "Matchday#6", "Matchday#7", "Matchday#8", "Matchday#9", "Matchday#10", "FINALE ?", "Época 10", "PONTUAÇÃO TOTAL", "RÁCIO", "PRESENÇAS", "VITÓRIAS"], ["", "André Carvalho", "", "", "", "", "", "", "", "", "", "", "", "André Carvalho", 0, 0, 0, 0], ["", "Carlos Rafael", "", "", "", "", "", "", "", "", "", "", "", "Carlos Rafael", 0, 0, 0, 0], ["", "Diogo Pereira", "", "", "", "", "", "", "", "", "", "", "", "Diogo Pereira", 0, 0, 0, 0], ["", "João Almeida", "", "", "", "", "", "", "", "", "", "", "", "João Almeida", 0, 0, 0, 0], ["", "João Batista", "", "", "", "", "", "", "", "", "", "", "", "João Batista", 0, 0, 0, 0], ["", "Jorge Almeida", "", "", "", "", "", "", "", "", "", "", "", "Jorge Almeida", 0, 0, 0, 0], ["", "Litos Rios", "", "", "", "", "", "", "", "", "", "", "", "Litos Rios", 0, 0, 0, 0], ["", "Miguel Moura", "", "", "", "", "", "", "", "", "", "", "", "Miguel Moura", 0, 0, 0, 0], ["", "Nuno Rios", "", "", "", "", "", "", "", "", "", "", "", "Nuno Rios", 0, 0, 0, 0], ["", "Pedro Almeida", "", "", "", "", "", "", "", "", "", "", "", "Pedro Almeida", 0, 0, 0, 0], ["", "Rui Campia", "", "", "", "", "", "", "", "", "", "", "", "Rui Campia", 0, 0, 0, 0], ["", "Tiago Valente", "", "", "", "", "", "", "", "", "", "", "", "Tiago Valente", 0, 0, 0, 0], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "PAGAR PRIOR", "", "", "", "", "", "", "", "", "", "", "", "PAGAR PRIOR", "", "", "", ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "", "", "", "", "", "SUPER:BOLA - CLASSIFICAÇÃO FINAL 2º CENTENÁRIO", "", "", "", "", "", "", "", "", "", "", ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "", "Centenário  /     Season", "Tarefa1: Chaves,Pagar Prior,Excel", "Tarefa2: Sondagem,Sorteio,Bolas", "", "PARÇA", "CAMPEÃO", "VICE-CAMPEÃO", "", "Jogos", "Vitórias", "Rácio", "Nome", "Performance", "", "", ""], ["", "", "1 - Season 1", "Jorge Nuno", "Jorge Nuno", "", "André Carvalho", 1, "", "", 11, 9, 0.8181818182, "Pedro Almeida", "CLASSE MUNDIAL", "", "", ""], ["", "", "1 - Season 2", "Jorge Nuno", "Jorge Nuno", "", "Carlos Rafael", "", "", "", 17, 12, 0.7058823529, "André Carvalho", "MUITO BOM", "", "90% - 100% lendário", ""], ["", "", "1 - Season 3", "Jorge Nuno", "Jorge Nuno", "", "Diogo Pereira", "", "", "", 3, 2, 0.6666666667, "Carlos Rafael", "BOM", "", "80% - 89,9%classe mundial", ""], ["", "", "1 - Season 4", "Jorge Nuno", "Jorge Nuno", "", "João Almeida", "", "", "", 16, 10, 0.625, "Jorge Almeida", "BOM", "", "70% - 79,9% muito bom", ""], ["", "", "1 - Season 5", "Nuno Rios", "Jorge Nuno", "", "João Batista", 1, "", "", 22, 13, 0.5909090909, "Litos Rios", "AJEITA-SE", "", "60% - 69,9% bom", ""], ["", "", "1 - Season 6", "Litos Rios", "Miguel Moura", "", "Jorge Almeida", "", 1, "", 16, 7, 0.4375, "Nuno Rios", "ESFORÇADO", "", "50% - 59,9% ajeita-se", ""], ["", "", "1 - Season 7", "Litos Rios", "Miguel Moura", "", "Litos Rios", "", 1, "", 24, 10, 0.4166666667, "João Batista", "ESFORÇADO", "", "40% - 49,9% esforçado", ""], ["", "", "1 - Season 8", "Litos Rios", "Miguel Moura", "", "Miguel Moura", "", "", "", 21, 7, 0.3333333333, "Miguel Moura", "SAFA", "", "30% - 39,9% safa", ""], ["", "", "1 - Season 9", "Pedro Almeida", "Rui Campia", "", "Nuno Rios", "", "", "", 4, 1, 0.25, "Diogo Pereira", "MAU", "", "20% - 29,9% mau", ""], ["", "", "1 - Season 10", "Tiago Valente", "João Batista", "", "Pedro Almeida", "", "", "", 17, 4, 0.2352941176, "Tiago Valente", "MAU", "", "10% - 19,9% penoso", ""], ["", "", "1 - Season 11", "Nuno Rios", "João Batista", "", "Rui Campia", "", "", "", 2, 0, 0, "João Almeida", "INÚTIL", "", "0% - 9,9% lamentável", "(+0 presenças)"], ["", "", "2 - Season 1", "Nuno Rios", "Miguel Moura", "", "Tiago Valente", "", "", "", 0, 0, 0, "Rui Campia", "INÚTIL", "", "0% inútil", "(0 presenças)"], ["", "", "2 - Season 2", "Nuno Rios", "Miguel Moura", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "", "2 - Season 3", "Nuno Rios", "Miguel Moura", "", "", "", "", "", "", "", "", "", "", "", "", ""]], "DADOS GERAIS SUPERBOLA": [["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "", "", "", "", "", "SUPER:BOLA ALL-TIME RANKING", "", "", "", "", "", "", "", "", "", "", ""], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "", "", "", "", "", "PARÇA", "CAMPEÃO", "VICE-CAMPEÃO", "", "Jogos", "Vitórias", "Rácio", "Nome", "Performance", "", "", ""], ["", "", "", "", "", "", "André Carvalho", 1, 1, "", 65, 40, 0.6153846154, "Rui Campia", "BOM", "", "", ""], ["", "", "", "", "", "", "Carlos Rafael", 1, 0, "", 110, 67, 0.6090909091, "Litos Rios", "BOM", "", "90% - 100% lendário", ""], ["", "", "", "", "", "", "Diogo Pereira", 1, 0, "", 67, 39, 0.5820895522, "Diogo Pereira", "AJEITA-SE", "", "80% - 89,9%classe mundial", ""], ["", "", "", "", "", "", "João Almeida", 0, 2, "", 20, 11, 0.55, "Carlos Rafael", "AJEITA-SE", "", "70% - 79,9% muito bom", ""], ["", "", "", "", "", "", "João Batista", 1, 1, "", 81, 44, 0.5432098765, "Jorge Almeida", "AJEITA-SE", "", "60% - 69,9% bom", ""], ["", "", "", "", "", "", "Jorge Almeida", 0, 2, "", 115, 56, 0.4869565217, "Miguel Moura", "ESFORÇADO", "", "50% - 59,9% ajeita-se", ""], ["", "", "", "", "", "", "Litos Rios", 3, 3, "", 76, 36, 0.4736842105, "André Carvalho", "ESFORÇADO", "", "40% - 49,9% esforçado", ""], ["", "", "", "", "", "", "Miguel Moura", 3, 3, "", 72, 34, 0.4722222222, "Tiago Valente", "ESFORÇADO", "", "30% - 39,9% safa", ""], ["", "", "", "", "", "", "Nuno Rios", 1, 0, "", 68, 30, 0.4411764706, "Pedro Almeida", "ESFORÇADO", "", "20% - 29,9% mau", ""], ["", "", "", "", "", "", "Pedro Almeida", 0, 0, "", 91, 38, 0.4175824176, "Nuno Rios", "ESFORÇADO", "", "10% - 19,9% penoso", ""], ["", "", "", "", "", "", "Rui Campia", 2, 1, "", 94, 38, 0.4042553191, "João Batista", "ESFORÇADO", "", "0% - 9,9% lamentável", "(+0 presenças)"], ["", "", "", "", "", "", "Tiago Valente", 0, 2, "", 49, 18, 0.3673469388, "João Almeida", "SAFA", "", "0% inútil", "(0 presenças)"]], "Liga Bitaites": [["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "Época 22/23", "Nome", "Portugal 1", "Score", "Portugal 2", "Score", "Espanha", "Score", "França", "Score", "Inglaterra", "Score", "Alemanha", "Score", "Itália", "Score", "TOTAL", "", "", "", "", "Champions", "Score", "Europa", "Score", "Conference", "Score", "Mundial", "Score", "TOTAL", "FINAL", "", "Flop", "Revelação", "Clube CR7", "Veredicto", "Bitaite ao calhas", "Veredicto"], ["", "", "Pedro Almeida", "FC Porto", 1, "Feirense", 7, "Barcelona", 0, "PSG", 0, "Liverpool", 4, "Bayern", 0, "Roma", 5, 17, "", "", "", "", "Man City", 0, "Man Utd", 3, "Vitória SC", 9, "Portugal", 4, 16, 33, "", "Pissa do Pedro Almeida", "", "", "Inconclusivo", "Paços de Ferreira safa-se e fica à frente de Santa Clara", "50% verdade"], ["", "", "João Almeida", "FC Porto", 1, "Tondela", 10, "Real Madrid", 1, "PSG", 0, "Man City", 0, "Bayern", 0, "Roma", 5, 17, "", "", "", "", "Bayern", 3, "Roma", 1, "", 9, "Alemanha", 6, 18, 35, "", "Trincão", "Loader", "Man Utd", "Not, not, yes!", "Benfica e Porto encontram-se nos Quartos de Final da Champions", "FOI QUASE!"], ["", "", "Miguel Moura", "Benfica", 0, "Tondela", 10, "Barcelona", 0, "PSG", 0, "Man City", 0, "Bayern", 0, "Juventus", 6, 16, "", "", "", "", "Man City", 0, "Man Utd", 3, "Fiorentina", 1, "Argentina", 0, 1, 17, "", "Braga", "Casa Pia", "Man Utd", "Not, mais ou menos, yes!", "CR7 faz um hattrick perfeito na meia final do mundial", "lol not"], ["", "", "Litos Rios", "Benfica", 0, "Moreirense", 0, "Real Madrid", 1, "PSG", 0, "Man City", 0, "Bayern", 0, "Inter", 2, 3, "", "", "", "", "Man City", 0, "Arsenal", 4, "Villarreal", 4, "Brasil", 4, 8, 11, "", "x", "Diego Moreira", "Sporting", "Not, not, not!", "JJ vai treinar o Braga em janeiro", "lol not"], ["", "", "Jorge Almeida", "FC Porto", 1, "Oliveirense", 9, "Atl. de Madrid", 2, "PSG", 0, "Chelsea", 11, "Bayern", 0, "Juventus", 6, 29, "", "", "", "", "PSG", 4, "Roma", 1, "Vitória", 9, "Portugal", 4, 17, 46, "", "Verón", "Eustáquio", "Mónaco", "Yes, mais ou menos, not!", "Pedro Almeida faz mais de 30 pontos neste joguinho", "CERTO!"], ["", "", "Carlos Rafael", "Sporting CP", 3, "Penafiel", 11, "Real Madrid", 1, "PSG", 0, "Liverpool", 4, "Bayern", 0, "Juventus", 6, 25, "", "", "", "", "Man City", 0, "Sporting", 3, "West Ham", 0, "Portugal", 4, 4, 29, "", "Sei lá, ou crl", "Estoril", "Man Utd", "Inconclusivo, not, yes!", "Ronaldo marca na final do mundial", "lol not"], ["", "", "Diogo Pereira", "Benfica", 0, "Nacional", 12, "Real Madrid", 1, "PSG", 0, "Man City", 0, "Bayern", 0, "Inter", 2, 15, "", "", "", "", "Man City", 0, "Estrela Vermelha", 7, "Molde", 6, "França", 1, 7, 22, "", "Sporting", "Vizela", "SC Alba", "Yes, not, not!", "Pissa de Diogo Pereira", "Inconclusivo"], ["", "", "Nuno Rios", "Benfica", 0, "Moreirense", 0, "Real Madrid", 1, "PSG", 0, "Man City", 0, "Bayern", 0, "Juventus", 6, 7, "", "", "", "", "PSG", 4, "Sporting", 3, "Gil Vicente", 8, "Brasil", 4, 16, 23, "", "Véron", "Enzo Fernandéz", "Roma", "Yes, yes, not!", "Gonçalo Inácio faz um hattrick algures na temporada", "lol not"], ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], ["", "", "", "PORTUGAL 1", "", "PORTUGAL 2", "", "ESPANHA", "", "FRANÇA", "", "INGLATERRA", "", "ALEMANHA", "", "ITÁLIA", "", "TOTAL", "TAÇA PORTUGAL", "", "TAÇA DA LIGA", "", "CHAMPIONS", "", "EUROPA", "", "CONFERENCE", "", "Euro 24", "", "TOTAL", "FINAL", "", "Revelação", "Flop", "", "", "Bitaite ao calhas", "Veredito"], ["", "Época 23/34", "André Carvalho", "", "", "", "", "", "", "", "", "", "", "", "", "", "", 0, "", "", "", "", "", "", "", "", "", "", "", "", 0, 0, "André Carvalho", "", "", "", "", "", ""], ["", "", "Carlos Rafael", "Sporting CP", 0, "Marítimo", 3, "Real Madrid", 0, "PSG", 0, "Man City", 0, "Bayern", 2, "AC Mlian", 1, 6, "SL Benfica", 2, "Sporting CP", 3, "Bayern", 2, "Sporting CP", 5, "Ajax", 4, "Alemanha", 3, 19, 25, "Carlos Rafael", "Gyokeres", "Ivan Jaime", "", "", "Porto fica em 4º", "FOI QUASE!"], ["", "", "Diogo Pereira", "SC Braga", 3, "Torrense", 6, "Rayo Vallecano", 16, "Mónaco", 1, "Aston Villa", 3, "Leverkusen", 0, "Fiorentina", 7, 36, "SL Benfica", 2, "Sporting CP", 3, "AC Milan", 4, "Sparta Praga", 4, "Dínamo Zagreb", 4, "Dinamarca", 4, 21, 57, "Diogo Pereira", "Zé Carlos", "Arthur Cabral ", "", "", "até ao final do campeonato português, alguém deste grupo vai-me chupar a pissa", "lol not"], ["", "", "João Almeida", "FC Porto", 2, "Paços de Ferreira", 4, "Real Madrid", 0, "PSG", 0, "Man City", 0, "Bayern", 2, "Inter Milão", 0, 8, "SC Braga", 4, "Sporting CP", 3, "Real Madrid", 0, "FC Porto", 7, "Sporting CP", 7, "Portugal", 3, 24, 32, "João Almeida", "Zalazar", "Jurasek", "", "", "Pepê, Otávio, Pote, Ramos ou Rafa saem para a Arábia no mercado de Janeiro", "50% verdade"], ["", "", "João Batista", "FC Porto", 2, "Paços de Ferreira", 4, "Barcelona", 1, "Marselha", 7, "Man City", 0, "Dortmund", 4, "Inter Milão", 0, 18, "FC Porto", 0, "Sporting CP", 3, "Bayern", 2, "Villareal", 5, "Brugges", 2, "Inglaterra", 1, 13, 31, "João Batista", "Martin Neto", "Kokçu", "", "", "Messi Balon D'Or", "CERTO!"], ["", "", "Jorge Almeida", "FC Porto", 2, "Oliveirense", 14, "Real Madrid", 0, "Mónaco", 1, "Man City", 0, "Bayern", 2, "Fiorentina", 7, 26, "FC Porto", 0, "FC Porto", 4, "Man City", 3, "Ajax", 6, "Fiorentina", 1, "Portugal", 3, 17, 43, "Jorge Almeida", "Toni Martinez", "Gonçalo Ramos", "", "", "Sporting primeiro classificado no Natal", "CERTO!"], ["", "", "Litos Rios", "SL Benfica", 1, "Paços de Ferreira", 4, "Real Madrid", 0, "PSG", 0, "Man City", 0, "Bayern", 2, "Inter Milão", 0, 7, "SL Benfica", 2, "SL Benfica", 3, "Man City", 3, "Sevilla", 7, "Eintracht Frankfurt", 5, "Portugal", 3, 23, 30, "Litos Rios", "Tomás Araújo", "Jurasek", "", "", "À 5a jornada o FC Porto já teve 7 penaltis", "lol not"], ["", "", "Miguel Moura", "SL Benfica", 1, "Marítimo", 3, "Barcelona", 1, "Rennes", 9, "Man City", 0, "Bayern", 2, "Inter Milão", 0, 16, "SC Braga", 4, "SL Benfica", 3, "Barcelona", 3, "Liverpool", 4, "Aston Villa", 2, "Inglaterra", 1, 17, 33, "Miguel Moura", "Otso Liimatta", "Jurasek", "", "", "Sérgio Conceição deixa de ser treinador do FC Porto até Janeiro", "lol not"], ["", "", "Nuno Rios", "SL Benfica", 1, "Santa Clara", 0, "Barcelona", 1, "PSG", 0, "Man City", 0, "Bayern", 2, "Inter Milão", 0, 4, "SL Benfica", 2, "SL Benfica", 3, "SL Benfica", 4, "SL Benfica", 4, "Aston Villa", 2, "Alemanha", 3, 18, 22, "Nuno Rios", "João Vítor", "Nico Gonzalez", "", "", "Gonçalo Inácio fará um hattrick durante a época", "lol not"], ["", "", "Pedro Almeida", "FC Porto", 2, "AVS", 2, "Barcelona", 1, "Lille", 3, "Man City", 0, "Bayern", 2, "Roma", 5, 15, "FC Porto", 0, "FC Porto", 4, "Real Madrid", 0, "Lille", 7, "Sporting", 7, "Portugal", 3, 21, 36, "Pedro Almeida", "Marin", "Rony Lopes", "", "", "Treinador espanhol do Vizela vai de cona antes do Natal", "CERTO!"], ["", "", "Rui Campia", "Sporting CP", 0, "AVS", 2, "Real Madrid", 0, "PSG", 0, "Man City", 0, "Bayern", 2, "AC Milan", 1, 5, "SC Braga", 4, "SC Braga", 0, "Man City", 3, "Liverpool", 4, "Ajax", 4, "Portugal", 3, 18, 23, "Rui Campia", "Paulinho", "Jurasek", "", "", "UDO vai ao playoff de subida", "lol not"], ["", "", "Tiago Valente", "FC Porto", 2, "Marítimo", 3, "Real Madrid", 0, "PSG", 0, "Man City", 0, "Bayern", 2, "AC Milan", 1, 8, "SL Benfica", 2, "SC Braga", 0, "Bayern", 2, "Liverpool", 4, "Ajax", 4, "Alemanha", 3, 15, 23, "Tiago Valente", "Gyokeres", "Chico Conceição", "", "", "Marcano faz mais golos que o Paulinho", "lol not"]]};
+let parsedData = { cent1: [], cent2: [], allTime: [] };
+let PLAYERS = [];
+
+// Sheets
+const SHEET_CENT1 = '1º centenário';
+const SHEET_CENT2 = '2º centenário';
+const SHEET_ALLTIME = 'DADOS GERAIS SUPERBOLA';
+
+// ---- INIT ----
+function init() {
+  parseData();
+  buildUI();
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+}
+
+// ---- PARSE DATA ----
+function parseData() {
+  parsedData.cent1 = parseSheet(rawData[SHEET_CENT1] || []);
+  parsedData.cent2 = parseSheet(rawData[SHEET_CENT2] || []);
+  parsedData.allTime = parseAllTime(rawData[SHEET_ALLTIME] || []);
+  parsedData.cent1Rankings = parseCentRankings(rawData[SHEET_CENT1] || [], '1');
+  parsedData.cent2Rankings = parseCentRankings(rawData[SHEET_CENT2] || [], '2');
+  parsedData.cent1ChampsRanking = parseChampsRanking(rawData[SHEET_CENT1] || []);
+  parsedData.cent2ChampsRanking = parseChampsRanking(rawData[SHEET_CENT2] || []);
+
+  PLAYERS = parsedData.allTime.map(p => p.name).filter(Boolean);
+  if (!PLAYERS.length) {
+    const names = new Set();
+    [...parsedData.cent1, ...parsedData.cent2].forEach(s => s.players.forEach(p => names.add(p.name)));
+    PLAYERS = [...names].sort();
+  }
+}
+
+function parseCentRankings(rows, centNum) {
+  // Find the classification summary table at the bottom of the sheet
+  // It has columns: PARÇA, CAMPEÃO, VICE-CAMPEÃO, Jogos, Vitórias, Rácio, Nome, Performance
+  // The "Nome" and "Performance" columns are the ranking we want
+  const players = [];
+  let inTable = false;
+  for (const row of rows) {
+    const hasClassif = row.some(v => String(v||'').includes('CLASSIFICAÇÃO FINAL'));
+    if (hasClassif) { inTable = true; continue; }
+    if (!inTable) continue;
+    // Header row
+    if (row.some(v => String(v||'') === 'Nome')) continue;
+    // Data rows: col13=Nome, col14=Performance
+    const nome = String(row[13]||'').trim();
+    const perf = String(row[14]||'').trim();
+    const jogos = parseInt(row[10]) || 0;
+    const vitorias = parseInt(row[11]) || 0;
+    const ratio = parseFloat(row[12]) || 0;
+    if (!nome || nome === 'Nome' || nome === 'Performance') continue;
+    // Avoid duplicate entries
+    if (!players.find(p => p.name === nome)) {
+      players.push({ name: nome, jogos, vitorias, ratio, performance: perf });
+    }
+  }
+  return players;
+}
+
+function parseChampsRanking(rows) {
+  // Parse PARÇA/CAMPEÃO/VICE columns from the summary table
+  const players = {};
+  let inTable = false;
+  for (const row of rows) {
+    const hasClassif = row.some(v => String(v||'').includes('CLASSIFICAÇÃO FINAL'));
+    if (hasClassif) { inTable = true; continue; }
+    if (!inTable) continue;
+    const parca = String(row[6]||'').trim();
+    if (!parca || parca === 'PARÇA' || parca.includes('CLASSIFICAÇÃO') || parca.includes('Season')) continue;
+    const camp = parseInt(row[7]) || 0;
+    const vice = parseInt(row[8]) || 0;
+    if (!players[parca]) players[parca] = { name: parca, campeon: 0, vice: 0 };
+    players[parca].campeon += camp;
+    players[parca].vice += vice;
+  }
+  return Object.values(players);
+}
+
+function parseSheet(rows) {
+  const seasons = [];
+  let i = 0;
+  while (i < rows.length) {
+    const row = rows[i];
+    if (!row) { i++; continue; }
+    const cell1 = String(row[1] || '');
+    if (cell1.startsWith('Época')) {
+      const seasonData = { name: cell1, players: [] };
+      // Detect if this sheet has the duplicated-name column structure (2nd centenary)
+      // In 2nd centenary: col13=name repeat, col14=total, col15=ratio, col16=presencas, col17=vitorias
+      // In 1st centenary: col12=FINALE?, col13=total, col14=ratio, col15=presencas, col16=vitorias
+      // We detect by checking the header row for a repeated name-like column at index 13
+      const headerRow = row;
+      const hasRepeatName = String(headerRow[13] || '').includes('Época') || String(headerRow[13] || '') === cell1;
+      // Actually detect from data rows: if col13 is a string (name), it's 2nd centenary layout
+      let isCent2Layout = false;
+      // peek ahead to first player row
+      if (i+1 < rows.length) {
+        const peek = rows[i+1];
+        if (peek && String(peek[13] || '').trim().length > 2 && isNaN(parseFloat(peek[13]))) {
+          isCent2Layout = true;
+        }
+      }
+
+      i++;
+      while (i < rows.length) {
+        const r = rows[i];
+        const c1 = String(r[1] || '').trim();
+        if (c1.startsWith('Época')) break;
+        if (!c1 || c1 === 'PAGAR PRIOR') { i++; continue; }
+        const c5 = String(r[5] || '');
+        if (c5.includes('CLASSIFICAÇÃO FINAL')) { i++; continue; }
+        if (c1.includes('Matchday') || c1.includes('PONTUAÇÃO') || c1.includes('Tarefa')) { i++; continue; }
+
+        const player = { name: c1, scores: [], total: 0, ratio: 0, presencas: 0, vitorias: 0, finale: null };
+        for (let m = 2; m <= 11; m++) {
+          const v = r[m];
+          player.scores.push((v === null || v === undefined || v === '') ? null : parseFloat(v));
+        }
+
+        if (isCent2Layout) {
+          // col12=FINALE, col13=name(ignore), col14=total, col15=ratio, col16=presencas, col17=vitorias
+          const finV = parseFloat(r[12]);
+          player.finale = isNaN(finV) ? null : finV;
+          player.total = parseInt(r[14]) || 0;
+          player.ratio = parseFloat(r[15]) || 0;
+          player.presencas = parseInt(r[16]) || 0;
+          player.vitorias = parseInt(r[17]) || 0;
+        } else {
+          // col12=FINALE, col13=total, col14=ratio, col15=presencas, col16=vitorias
+          const finV = parseFloat(r[12]);
+          player.finale = isNaN(finV) ? null : finV;
+          player.total = parseInt(r[13]) || 0;
+          player.ratio = parseFloat(r[14]) || 0;
+          player.presencas = parseInt(r[15]) || 0;
+          player.vitorias = parseInt(r[16]) || 0;
+        }
+
+        seasonData.players.push(player);
+        i++;
+      }
+      if (seasonData.players.length > 0) seasons.push(seasonData);
+      continue;
+    }
+    const c5 = String(row[5] || '');
+    if (c5.includes('CLASSIFICAÇÃO FINAL')) break;
+    i++;
+  }
+  return seasons;
+}
+
+function parseAllTime(rows) {
+  const players = [];
+  let inTable = false;
+  for (const row of rows) {
+    const c5 = String(row[5] || '');
+    if (c5 === 'PARÇA') { inTable = true; continue; }
+    if (!inTable) continue;
+    if (!row[5]) continue;
+    const name = String(row[5]);
+    if (!name || name === 'PARÇA') continue;
+    players.push({
+      name,
+      campeon: parseInt(row[6]) || 0,
+      vice: parseInt(row[7]) || 0,
+      jogos: parseInt(row[10]) || 0,
+      vitorias: parseInt(row[11]) || 0,
+      ratio: parseFloat(row[12]) || 0,
+      performance: String(row[14] || '')
+    });
+  }
+  return players;
+}
+
+// Parse champion info from sheets
+function getChampions() {
+  const champs = [];
+  // From 1º centenário summary
+  const sheet1 = rawData[SHEET_CENT1] || [];
+  let inSummary = false;
+  for (const row of sheet1) {
+    const c5 = String(row[5] || '');
+    if (c5.includes('CLASSIFICAÇÃO FINAL')) { inSummary = true; continue; }
+    if (!inSummary) continue;
+    const seasonName = String(row[2] || '');
+    if (!seasonName.includes('Season')) continue;
+    champs.push({
+      cent: 1,
+      season: seasonName,
+      campeon: String(row[7] || '').trim(),
+      vice: String(row[8] || '').trim()
+    });
+  }
+  const sheet2 = rawData[SHEET_CENT2] || [];
+  inSummary = false;
+  for (const row of sheet2) {
+    const c5 = String(row[5] || '');
+    if (c5.includes('CLASSIFICAÇÃO FINAL')) { inSummary = true; continue; }
+    if (!inSummary) continue;
+    const seasonName = String(row[2] || '');
+    if (!seasonName.includes('Season')) continue;
+    champs.push({
+      cent: 2,
+      season: seasonName,
+      campeon: String(row[7] || '').trim(),
+      vice: String(row[8] || '').trim()
+    });
+  }
+  return champs;
+}
+
+// ---- BUILD UI ----
+function buildUI() {
+  buildHeaderStats();
+  buildCentSelector('centSelector', 'classificacao');
+  buildSorteioPlayers();
+  checkSorteioBloqueado();
+  showTitulosTab('cent1', document.querySelector('#titulosSubTabs .season-tab'));
+  showJogadoresTab('cent1', document.querySelector('#jogadoresSubTabs .season-tab'));
+  selectCent('centSelector', 2, 'classificacao');
+}
+
+function buildHeaderStats() {
+  const seasons1 = parsedData.cent1.length;
+  const seasons2 = parsedData.cent2.length;
+  document.getElementById('headerStats').innerHTML = `
+    <div class="header-stat">
+      <div class="header-stat-num">2</div>
+      <div class="header-stat-label">Centenários</div>
+    </div>
+    <div class="header-stat">
+      <div class="header-stat-num">${seasons1 + seasons2}</div>
+      <div class="header-stat-label">Épocas</div>
+    </div>
+    <div class="header-stat">
+      <div class="header-stat-num">124</div>
+      <div class="header-stat-label">Jogos</div>
+    </div>
+  `;
+}
+
+function buildAllTimeTable() {
+  const players = [...parsedData.allTime].sort((a,b) => b.ratio - a.ratio);
+  let html = `<table class="class-table">
+    <thead><tr>
+      <th>#</th><th>Jogador</th><th>Títulos</th><th>Jogos</th><th>Vitórias</th><th>Rácio</th><th>Performance</th>
+    </tr></thead><tbody>`;
+
+  players.forEach((p, i) => {
+    const rankClass = i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : i === 2 ? 'rank-3' : '';
+    const titles = p.campeon > 0 || p.vice > 0 ? `${'🏆'.repeat(p.campeon)}${'🥈'.repeat(p.vice)}` : '—';
+    const ratioPct = (p.ratio * 100).toFixed(1);
+    const perfColor = p.ratio >= 0.7 ? '#ffd700' : p.ratio >= 0.6 ? '#2ecc2e' : p.ratio >= 0.5 ? '#3498db' : p.ratio >= 0.4 ? '#e67e22' : '#e74c3c';
+    html += `<tr class="${rankClass}">
+      <td><span class="rank-num">${i+1}</span></td>
+      <td><span class="player-name">${p.name}</span></td>
+      <td>${titles}</td>
+      <td>${p.jogos}</td>
+      <td>${p.vitorias}</td>
+      <td><div class="ratio-bar">
+        <div class="ratio-track"><div class="ratio-fill" style="width:${ratioPct}%; background:${perfColor}"></div></div>
+        <span class="ratio-text">${ratioPct}%</span>
+      </div></td>
+      <td style="font-family:'Oswald',sans-serif; font-size:12px; color:${perfColor}">${p.performance}</td>
+    </tr>`;
+  });
+
+  html += `</tbody></table>`;
+  document.getElementById('allTimeTable').innerHTML = html;
+}
+
+let currentCentClass = 2;
+let currentCentHist = 2;
+
+function buildCentSelector(containerId, section) {
+  const cont = document.getElementById(containerId);
+  cont.innerHTML = `
+    <span class="cent-badge ${section === 'classificacao' ? (currentCentClass === 1 ? 'active':'') : (currentCentHist === 1 ? 'active':'')}" 
+      onclick="selectCent('${containerId}', 1, '${section}')">⚽ 1º Centenário (${parsedData.cent1.length} seasons)</span>
+    <span class="cent-badge ${section === 'classificacao' ? (currentCentClass === 2 ? 'active':'') : (currentCentHist === 2 ? 'active':'')}" 
+      onclick="selectCent('${containerId}', 2, '${section}')">🔥 2º Centenário (${parsedData.cent2.length} seasons)</span>
+  `;
+}
+
+function selectCent(containerId, cent, section) {
+  if (section === 'classificacao') currentCentClass = cent;
+  else currentCentHist = cent;
+
+  // Update badges
+  document.querySelectorAll(`#${containerId} .cent-badge`).forEach((b, i) => {
+    b.classList.toggle('active', i+1 === cent);
+  });
+
+  const seasons = cent === 1 ? parsedData.cent1 : parsedData.cent2;
+  if (section === 'classificacao') buildSeasonTabs('seasonTabs', seasons, 0, 'class');
+  else buildSeasonTabs('seasonTabsHist', seasons, 0, 'hist');
+}
+
+function buildSeasonTabs(containerId, seasons, activeIdx, type) {
+  const cont = document.getElementById(containerId);
+  cont.innerHTML = seasons.map((s, i) => {
+    const hasFinale = s.players.some(p => p.finale !== null);
+    return `<button class="season-tab ${hasFinale ? 'finale' : ''} ${i === activeIdx ? 'active' : ''}" 
+      onclick="selectSeason(this, ${i}, '${type}')">${s.name}</button>`;
+  }).join('');
+
+  if (type === 'class') renderSeasonTable(seasons[activeIdx], activeIdx);
+  else renderHistorico(seasons[activeIdx], activeIdx);
+}
+
+function selectSeason(btn, idx, type) {
+  const cont = btn.parentElement;
+  cont.querySelectorAll('.season-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const cent = type === 'class' ? currentCentClass : currentCentHist;
+  const seasons = cent === 1 ? parsedData.cent1 : parsedData.cent2;
+  if (type === 'class') renderSeasonTable(seasons[idx], idx);
+  else renderHistorico(seasons[idx], idx);
+}
+
+function renderSeasonTable(season, idx) {
+  if (!season) { document.getElementById('seasonTable').innerHTML = ''; return; }
+  const sorted = [...season.players].filter(p => p.presencas > 0).sort((a,b) => b.total - a.total);
+  const champs = getChampions();
+  const cent = currentCentClass;
+  const champInfo = champs.find(c => c.cent === cent && c.season.includes(`Season ${idx+1}`));
+
+  let html = '';
+  if (champInfo && champInfo.campeon) {
+    html += `<div style="margin-bottom:16px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
+      <span style="font-family:'Oswald',sans-serif; font-size:13px; color:var(--amarelo)">🏆 CAMPEÃO: <strong>${champInfo.campeon}</strong></span>
+      ${champInfo.vice ? `<span style="font-family:'Oswald',sans-serif; font-size:13px; color:var(--prata)">🥈 VICE: <strong>${champInfo.vice}</strong></span>` : ''}
+    </div>`;
+  }
+
+  const hasFinale = season.players.some(p => p.finale !== null);
+  html += `<table class="class-table">
+    <thead><tr>
+      <th>#</th><th>Jogador</th><th>Pontos</th>
+      <th>J1</th><th>J2</th><th>J3</th><th>J4</th><th>J5</th>
+      <th>J6</th><th>J7</th><th>J8</th><th>J9</th><th>J10</th>
+      ${hasFinale ? '<th style="color:var(--vermelho)">FIN</th>' : ''}
+      <th>Pres.</th><th>Vit.</th><th>Rácio</th>
+    </tr></thead><tbody>`;
+
+  sorted.forEach((p, i) => {
+    const rankClass = i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : i === 2 ? 'rank-3' : '';
+    const ratioPct = (p.ratio * 100).toFixed(1);
+    html += `<tr class="${rankClass}">
+      <td><span class="rank-num">${i+1}</span></td>
+      <td><span class="player-name">${p.name}</span></td>
+      <td><span class="pts-badge">${p.total}</span></td>
+      ${p.scores.map(s => `<td style="color:${s===4?'var(--verde-claro)':s===1?'#e67e22':s===0?'rgba(255,255,255,0.2)':'rgba(255,255,255,0.2)'}; font-size:13px;">${s===null?'—':s}</td>`).join('')}
+      ${hasFinale ? `<td style="color:var(--amarelo); font-weight:bold;">${p.finale === null ? '—' : p.finale}</td>` : ''}
+      <td style="color:var(--cinza)">${p.presencas}</td>
+      <td style="color:var(--cinza)">${p.vitorias}</td>
+      <td><div class="ratio-bar">
+        <div class="ratio-track"><div class="ratio-fill" style="width:${ratioPct}%"></div></div>
+        <span class="ratio-text">${ratioPct}%</span>
+      </div></td>
+    </tr>`;
+  });
+
+  html += `</tbody></table>`;
+  document.getElementById('seasonTable').innerHTML = html;
+}
+
+function renderHistorico(season, idx) {
+  if (!season) { document.getElementById('historicoContent').innerHTML = ''; return; }
+
+  // Build matchday columns (up to 10 + finale)
+  const matchdays = [];
+  for (let m = 0; m < 10; m++) {
+    const hasSomething = season.players.some(p => p.scores[m] !== null && p.scores[m] !== undefined);
+    if (hasSomething) matchdays.push(m);
+  }
+  const hasFinale = season.players.some(p => p.finale !== null);
+
+  let html = `<table class="class-table">
+    <thead><tr>
+      <th>Jogador</th>
+      ${matchdays.map(m => `<th>J${m+1}</th>`).join('')}
+      ${hasFinale ? '<th style="color:var(--amarelo)">FINALE</th>' : ''}
+      <th>Total</th>
+    </tr></thead><tbody>`;
+
+  const sorted = [...season.players].filter(p => p.presencas > 0).sort((a,b) => b.total - a.total);
+  sorted.forEach(p => {
+    html += `<tr>
+      <td><span class="player-name">${p.name}</span></td>
+      ${matchdays.map(m => {
+        const s = p.scores[m];
+        const color = s===4?'var(--verde-claro)':s===1?'#e67e22':'rgba(255,255,255,0.25)';
+        const icon = s===4?'✅':s===1?'🟠':s===0?'❌':'—';
+        return `<td style="color:${color}; font-size:14px; text-align:center;">${icon}</td>`;
+      }).join('')}
+      ${hasFinale ? `<td style="text-align:center; font-size:14px">${p.finale===4?'✅':p.finale===1?'🟠':p.finale===0?'❌':'—'}</td>` : ''}
+      <td><span class="pts-badge">${p.total}</span></td>
+    </tr>`;
+  });
+
+  html += `</tbody></table>`;
+  document.getElementById('historicoContent').innerHTML = html;
+}
+
+// ---- TÍTULOS TABS ----
+function showTitulosTab(tab, btn) {
+  document.querySelectorAll('#titulosSubTabs .season-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const cont = document.getElementById('titulosContent');
+
+  if (tab === 'cent1') {
+    cont.innerHTML = buildTitulosTable(parsedData.cent1ChampsRanking, '1º Centenário');
+  } else if (tab === 'cent2') {
+    cont.innerHTML = buildTitulosTable(parsedData.cent2ChampsRanking, '2º Centenário');
+  } else {
+    cont.innerHTML = buildTitulosTable(parsedData.allTime, 'Geral');
+  }
+}
+
+function buildTitulosTable(players, label) {
+  const sorted = [...players].sort((a,b) => (b.campeon||0)*10+(b.vice||0) - ((a.campeon||0)*10+(a.vice||0)));
+  let html = `<table class="class-table">
+    <thead><tr>
+      <th>Jogador</th>
+      <th style="color:var(--ouro)">🏆 Campeão</th>
+      <th style="color:var(--prata)">🥈 Vice-Campeão</th>
+    </tr></thead><tbody>`;
+  sorted.forEach(p => {
+    const camp = p.campeon || 0;
+    const vice = p.vice || 0;
+    if (camp === 0 && vice === 0) return;
+    html += `<tr>
+      <td><span class="player-name">${p.name}</span></td>
+      <td style="color:var(--ouro); font-family:'Bebas Neue',sans-serif; font-size:22px; text-align:center">${camp > 0 ? '🏆'.repeat(camp)+' '+camp : '—'}</td>
+      <td style="color:var(--prata); font-family:'Bebas Neue',sans-serif; font-size:22px; text-align:center">${vice > 0 ? '🥈'.repeat(vice)+' '+vice : '—'}</td>
+    </tr>`;
+  });
+  html += `</tbody></table>`;
+  return html;
+}
+
+// ---- JOGADORES TABS ----
+function showJogadoresTab(tab, btn) {
+  document.querySelectorAll('#jogadoresSubTabs .season-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const cont = document.getElementById('jogadoresContent');
+
+  let players;
+  if (tab === 'cent1') players = parsedData.cent1Rankings;
+  else if (tab === 'cent2') players = parsedData.cent2Rankings;
+  else players = parsedData.allTime;
+
+  const sorted = [...(players||[])].filter(p => p.jogos > 0).sort((a,b) => b.ratio - a.ratio);
+  let html = `<table class="class-table">
+    <thead><tr>
+      <th>#</th><th>Nome</th><th>Jogos</th><th>Vitórias</th><th>Rácio</th><th>Performance</th>
+    </tr></thead><tbody>`;
+  sorted.forEach((p, i) => {
+    const rankClass = i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'';
+    const ratioPct = (p.ratio*100).toFixed(2)+'%';
+    const perfColor = p.ratio>=0.7?'#ffd700':p.ratio>=0.6?'#2ecc2e':p.ratio>=0.5?'#3498db':p.ratio>=0.4?'#e67e22':'#e74c3c';
+    html += `<tr class="${rankClass}">
+      <td><span class="rank-num">${i+1}</span></td>
+      <td><span class="player-name">${p.name}</span></td>
+      <td>${p.jogos}</td>
+      <td>${p.vitorias}</td>
+      <td><div class="ratio-bar">
+        <div class="ratio-track"><div class="ratio-fill" style="width:${(p.ratio*100).toFixed(1)}%;background:${perfColor}"></div></div>
+        <span class="ratio-text">${ratioPct}</span>
+      </div></td>
+      <td style="font-family:'Oswald',sans-serif;font-size:12px;color:${perfColor}">${p.performance||''}</td>
+    </tr>`;
+  });
+  html += `</tbody></table>`;
+  cont.innerHTML = html;
+}
+
+// ---- SORTEIO ANTI-TRAFULHICE ----
+let extraPlayers = [];
+
+function checkSorteioBloqueado() {
+  const last = localStorage.getItem('sb_sorteio_ts');
+  if (last) {
+    const diff = Date.now() - parseInt(last);
+    const dias7 = 7 * 24 * 60 * 60 * 1000;
+    if (diff < dias7) {
+      const restante = Math.ceil((dias7 - diff) / (1000*60*60*24));
+      document.getElementById('sorteio-bloqueado').style.display = 'block';
+      document.getElementById('sorteio-form').style.display = 'none';
+      document.getElementById('sorteio-bloqueado-msg').textContent = `O sorteio já foi realizado. Próximo sorteio disponível em ${restante} dia(s).`;
+      return;
+    }
+  }
+  document.getElementById('sorteio-bloqueado').style.display = 'none';
+  document.getElementById('sorteio-form').style.display = 'block';
+}
+
+function addExtra() {
+  const input = document.getElementById('extraName');
+  const name = input.value.trim();
+  if (!name) return;
+  if (extraPlayers.includes(name)) { showToast('Já adicionado!', 'error'); return; }
+  extraPlayers.push(name);
+  input.value = '';
+  renderExtras();
+}
+
+function renderExtras() {
+  const cont = document.getElementById('sorteioExtras');
+  cont.innerHTML = extraPlayers.map(p =>
+    `<div class="player-check" onclick="togglePlayer(this)">
+      <div class="check-icon">✓</div>
+      <span class="check-name">${p}</span>
+      <span onclick="removeExtra('${p}',event)" style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.3);cursor:pointer;padding-left:4px">✕</span>
+    </div>`
+  ).join('');
+  updateSorteioCount();
+}
+
+function removeExtra(name, e) {
+  e.stopPropagation();
+  extraPlayers = extraPlayers.filter(p => p !== name);
+  renderExtras();
+}
+
+function updateSorteioCount() {
+  const count = document.querySelectorAll('#sorteioPlayers .player-check.selected, #sorteioExtras .player-check.selected').length;
+  const el = document.getElementById('sorteioCount');
+  if (el) el.innerHTML = `Selecionados: <strong style="color:${count===10?'var(--verde-claro)':'var(--amarelo)'}">${count}</strong> / 10`;
+}
+
+function togglePlayer(el) {
+  el.classList.toggle('selected');
+  updateSorteioCount();
+}
+
+function sortear() {
+  const selected = [
+    ...[...document.querySelectorAll('#sorteioPlayers .player-check.selected')].map(el => el.querySelector('.check-name').textContent),
+    ...[...document.querySelectorAll('#sorteioExtras .player-check.selected')].map(el => el.querySelector('.check-name').textContent)
+  ];
+  if (selected.length !== 10) {
+    showToast(`Seleciona exatamente 10 jogadores (tens ${selected.length})`, 'error');
+    return;
+  }
+  const shuffled = [...selected].sort(() => Math.random() - 0.5);
+  const teamA = shuffled.slice(0, 5);
+  const teamB = shuffled.slice(5, 10);
+  document.getElementById('sorteioResult').innerHTML = `
+    <div class="teams-result">
+      <div class="team-card team-a">
+        <div class="team-label">⚡ EQUIPA A</div>
+        <div class="team-players">${teamA.map(p => `<div class="team-player">${p}</div>`).join('')}</div>
+      </div>
+      <div class="team-card team-b">
+        <div class="team-label">🔥 EQUIPA B</div>
+        <div class="team-players">${teamB.map(p => `<div class="team-player">${p}</div>`).join('')}</div>
+      </div>
+    </div>`;
+  document.getElementById('whatsappBtn').style.display = 'block';
+  // Bloquear por 7 dias
+  localStorage.setItem('sb_sorteio_ts', Date.now().toString());
+}
+
+function partilharWhatsApp() {
+  const teamA = [...document.querySelectorAll('#sorteioResult .team-card.team-a .team-player')].map(el => el.textContent);
+  const teamB = [...document.querySelectorAll('#sorteioResult .team-card.team-b .team-player')].map(el => el.textContent);
+  const msg = `⚽ *SUPER:BOLA — Sorteio de Equipas* ⚽\n\n⚡ *EQUIPA A*\n${teamA.map(p=>'• '+p).join('\n')}\n\n🔥 *EQUIPA B*\n${teamB.map(p=>'• '+p).join('\n')}\n\n🏟️ superbola.netlify.app`;
+  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+}
+  const at = parsedData.allTime;
+  const cont = document.getElementById('perfisGrid');
+  cont.innerHTML = at.map(p => {
+    const initials = p.name.split(' ').map(w => w[0]).join('').substring(0,2).toUpperCase();
+    const ratioPct = (p.ratio * 100).toFixed(1);
+    const perfColor = p.ratio >= 0.7 ? '#ffd700' : p.ratio >= 0.6 ? '#2ecc2e' : p.ratio >= 0.5 ? '#3498db' : p.ratio >= 0.4 ? '#e67e22' : '#e74c3c';
+    const titles = (p.campeon > 0 ? `${'🏆'.repeat(p.campeon)}` : '') + (p.vice > 0 ? `${'🥈'.repeat(p.vice)}` : '');
+    return `<div class="perfil-card" onclick="openPerfil('${p.name}')">
+      <div class="perfil-avatar">${initials}</div>
+      <div class="perfil-name">${p.name}</div>
+      <div class="perfil-stat-row"><span>Jogos</span><span>${p.jogos}</span></div>
+      <div class="perfil-stat-row"><span>Vitórias</span><span>${p.vitorias}</span></div>
+      <div class="perfil-stat-row"><span>Rácio</span><span style="color:${perfColor}">${ratioPct}%</span></div>
+      ${titles ? `<div class="perfil-titles">${titles}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function openPerfil(name) {
+  const p = parsedData.allTime.find(x => x.name === name);
+  if (!p) return;
+  const ratioPct = (p.ratio * 100).toFixed(1);
+
+  // Get season history
+  let seasonHistory = '';
+  const champs = getChampions();
+  const allSeasons = [
+    ...parsedData.cent1.map((s, i) => ({cent:1, idx:i, s})),
+    ...parsedData.cent2.map((s, i) => ({cent:2, idx:i, s}))
+  ];
+
+  seasonHistory = `<div style="margin-top:20px">
+    <div style="font-family:'Oswald',sans-serif; font-size:13px; letter-spacing:2px; color:var(--amarelo); margin-bottom:12px; text-transform:uppercase;">Histórico por Season</div>
+    <table class="class-table">
+      <thead><tr><th>Centenário</th><th>Season</th><th>Pontos</th><th>Pres.</th><th>Vit.</th><th>Rácio</th><th></th></tr></thead>
+      <tbody>`;
+
+  allSeasons.forEach(({cent, idx, s}) => {
+    const player = s.players.find(p2 => p2.name === name);
+    if (!player || player.presencas === 0) return;
+    const champ = champs.find(c => c.cent === cent && c.season.includes(`Season ${idx+1}`));
+    const isCamp = champ && champ.campeon === name;
+    const isVice = champ && champ.vice === name;
+    const rp = (player.ratio*100).toFixed(1);
+    seasonHistory += `<tr>
+      <td style="font-size:12px">${cent}º</td>
+      <td style="font-family:'Oswald',sans-serif">${s.name}</td>
+      <td><span class="pts-badge">${player.total}</span></td>
+      <td>${player.presencas}</td>
+      <td>${player.vitorias}</td>
+      <td style="font-size:13px">${rp}%</td>
+      <td>${isCamp ? '🏆' : isVice ? '🥈' : ''}</td>
+    </tr>`;
+  });
+
+  seasonHistory += `</tbody></table></div>`;
+
+  document.getElementById('modalContent').innerHTML = `
+    <div class="modal-title">${name}</div>
+    <div class="stats-grid">
+      <div class="stat-box"><div class="stat-box-num">${p.jogos}</div><div class="stat-box-label">Jogos</div></div>
+      <div class="stat-box"><div class="stat-box-num">${p.vitorias}</div><div class="stat-box-label">Vitórias</div></div>
+      <div class="stat-box"><div class="stat-box-num">${ratioPct}%</div><div class="stat-box-label">Rácio</div></div>
+      <div class="stat-box"><div class="stat-box-num">${p.campeon}</div><div class="stat-box-label">🏆 Títulos</div></div>
+      <div class="stat-box"><div class="stat-box-num">${p.vice}</div><div class="stat-box-label">🥈 Vice</div></div>
+      <div class="stat-box"><div class="stat-box-num" style="font-size:16px; padding-top:4px">${p.performance}</div><div class="stat-box-label">Performance</div></div>
+    </div>
+    ${seasonHistory}
+  `;
+  document.getElementById('modalOverlay').style.display = 'flex';
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modalOverlay')) {
+    document.getElementById('modalOverlay').style.display = 'none';
+  }
+}
+
+// ---- SORTEIO ----
+function buildSorteioPlayers() {
+  document.getElementById('sorteioPlayers').innerHTML = PLAYERS.map(p =>
+    `<div class="player-check" onclick="togglePlayer(this)">
+      <div class="check-icon">✓</div>
+      <span class="check-name">${p}</span>
+    </div>`
+  ).join('');
+}
+
+function togglePlayer(el) {
+  el.classList.toggle('selected');
+  const count = document.querySelectorAll('#sorteioPlayers .player-check.selected').length;
+  const res = document.getElementById('sorteioResult');
+  if (count !== 10) {
+    res.style.color = 'rgba(255,255,255,0.3)';
+    res.innerHTML = `Selecionados: <strong style="color:var(--amarelo)">${count}</strong> / 10`;
+  }
+}
+
+function sortear() {
+  const selected = [...document.querySelectorAll('#sorteioPlayers .player-check.selected')]
+    .map(el => el.querySelector('.check-name').textContent);
+
+  if (selected.length !== 10) {
+    showToast(`Seleciona exatamente 10 jogadores (tens ${selected.length})`, 'error');
+    return;
+  }
+
+  const shuffled = [...selected].sort(() => Math.random() - 0.5);
+  const teamA = shuffled.slice(0, 5);
+  const teamB = shuffled.slice(5, 10);
+
+  document.getElementById('sorteioResult').innerHTML = `
+    <div class="teams-result">
+      <div class="team-card team-a">
+        <div class="team-label">⚡ EQUIPA A</div>
+        <div class="team-players">${teamA.map(p => `<div class="team-player">${p}</div>`).join('')}</div>
+      </div>
+      <div class="team-card team-b">
+        <div class="team-label">🔥 EQUIPA B</div>
+        <div class="team-players">${teamB.map(p => `<div class="team-player">${p}</div>`).join('')}</div>
+      </div>
+    </div>
+  `;
+}
+
+// ---- REGISTO ----
+function buildRegistoForm() {
+  updateRegSeasons();
+  buildRegistoPlayers();
+}
+
+function updateRegSeasons() {
+  const cent = parseInt(document.getElementById('regCentenario').value);
+  const seasons = cent === 1 ? parsedData.cent1 : parsedData.cent2;
+  const sel = document.getElementById('regSeason');
+  sel.innerHTML = seasons.map((s, i) => `<option value="${i}">${s.name}</option>`).join('');
+  // Add next season option
+  sel.innerHTML += `<option value="${seasons.length}">Época ${seasons.length+1} (nova)</option>`;
+  sel.value = seasons.length > 0 ? seasons.length - 1 : 0;
+  updateRegJornadas();
+}
+
+function updateRegJornadas() {
+  const cent = parseInt(document.getElementById('regCentenario').value);
+  const seasons = cent === 1 ? parsedData.cent1 : parsedData.cent2;
+  const sIdx = parseInt(document.getElementById('regSeason').value);
+  const season = seasons[sIdx];
+
+  const sel = document.getElementById('regJornada');
+  sel.innerHTML = '';
+
+  // Find next available jornada
+  if (season) {
+    const usedMatchdays = [];
+    for (let m = 0; m < 10; m++) {
+      const hasData = season.players.some(p => p.scores[m] !== null && p.scores[m] !== undefined && p.scores[m] !== 0 && p.presencas > 0);
+      // Simple check: at least one player played
+      const anyPlayed = season.players.some(p => p.scores[m] > 0);
+      if (anyPlayed) usedMatchdays.push(m);
+    }
+    const nextM = usedMatchdays.length;
+    for (let m = 0; m < 10; m++) {
+      const used = usedMatchdays.includes(m);
+      sel.innerHTML += `<option value="${m}" ${m === nextM ? 'selected' : ''}>Jornada ${m+1}${used ? ' ✓' : ''}</option>`;
+    }
+    sel.innerHTML += `<option value="finale">FINALE ⭐</option>`;
+  } else {
+    for (let m = 0; m < 10; m++) {
+      sel.innerHTML += `<option value="${m}" ${m === 0 ? 'selected' : ''}>Jornada ${m+1}</option>`;
+    }
+    sel.innerHTML += `<option value="finale">FINALE ⭐</option>`;
+  }
+}
+
+function buildRegistoPlayers() {
+  document.getElementById('registoPlayers').innerHTML = PLAYERS.map(p =>
+    `<div class="player-result-row" id="reg_${p.replace(/ /g,'_')}">
+      <span class="player-result-name">${p}</span>
+      <div class="result-btns">
+        <button class="result-btn" onclick="setResult(this,'win')" title="Venceu (4pts)">✅ Ganhou</button>
+        <button class="result-btn" onclick="setResult(this,'lose')" title="Perdeu (1pt)">🟠 Perdeu</button>
+        <button class="result-btn absent active" onclick="setResult(this,'absent')" title="Não foi (0pts)">❌ Faltou</button>
+      </div>
+    </div>`
+  ).join('');
+}
+
+function setResult(btn, result) {
+  const row = btn.closest('.player-result-row');
+  row.querySelectorAll('.result-btn').forEach(b => b.classList.remove('win','lose','absent','active'));
+  btn.classList.add(result, 'active');
+}
+
+function limparRegisto() {
+  document.querySelectorAll('#registoPlayers .result-btn').forEach(btn => {
+    btn.classList.remove('win','lose','active');
+    if (btn.textContent.includes('Faltou')) btn.classList.add('absent','active');
+  });
+  document.getElementById('registoInfo').textContent = '';
+}
+
+async function guardarJornada() {
+  const cent = parseInt(document.getElementById('regCentenario').value);
+  const sIdx = parseInt(document.getElementById('regSeason').value);
+  const jornada = document.getElementById('regJornada').value;
+  const sheetName = cent === 1 ? SHEET_CENT1 : SHEET_CENT2;
+
+  // Collect results
+  const results = {};
+  PLAYERS.forEach(p => {
+    const row = document.getElementById(`reg_${p.replace(/ /g,'_')}`);
+    if (!row) return;
+    const active = row.querySelector('.result-btn.active');
+    if (!active) return;
+    const cls = active.classList;
+    results[p] = cls.contains('win') ? 4 : cls.contains('lose') ? 1 : 0;
+  });
+
+  const present = Object.entries(results).filter(([,v]) => v > 0);
+  if (present.length === 0) {
+    showToast('Pelo menos 1 jogador tem de ter jogado!', 'error');
+    return;
+  }
+
+  showToast('A guardar...');
+
+  // We need to update the Google Sheet
+  // Find the rows for each player in this season and update the appropriate column
+  const seasons = cent === 1 ? parsedData.cent1 : parsedData.cent2;
+
+  // For now, we'll do a batch update approach
+  // The structure in the sheet is complex, so we'll use a special Apps Script approach
+  // We'll send the data as a structured update
+
+  try {
+    const payload = {
+      action: 'registarJornada',
+      sheet: sheetName,
+      centenario: cent,
+      season: sIdx + 1,
+      jornada: jornada === 'finale' ? 'finale' : parseInt(jornada) + 1,
+      results: results
+    };
+
+    const res = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+
+    if (data.status === 'ok') {
+      showToast('✅ Jornada guardada com sucesso!');
+      // Reload data
+      await init();
+    } else {
+      showToast('⚠️ Guardado (atualiza o Apps Script para suporte completo)', 'error');
+    }
+  } catch(e) {
+    showToast('⚠️ Erro ao guardar. Verifica a ligação.', 'error');
+  }
+}
+
+// ---- NAV ----
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`page-${name}`).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ---- TOAST ----
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type === 'error' ? ' error' : '');
+  setTimeout(() => t.className = 'toast', 3000);
+}
+
+// ---- START ----
+init();
+</script>
+</body>
+</html>
